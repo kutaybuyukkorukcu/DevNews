@@ -14,5 +14,5 @@ public class Like extends AbstractAuditable {
     private String title;
     private String mainTopic;
 
-    private boolean isNew;
+//    private boolean isNew;
 }

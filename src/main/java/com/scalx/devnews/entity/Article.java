@@ -12,9 +12,6 @@ import javax.persistence.*;
 @Data
 public class Article extends AbstractAuditable {
 
-    @Column(name = "article_id")
-    private int articleId;
-
     @Column(name = "title")
     private String title;
 
@@ -28,5 +25,6 @@ public class Article extends AbstractAuditable {
     @Column(name = "article_link")
     private String articleLink;
 
+//    @Column(name = "is_new")
 //    private boolean isNew;
 }
