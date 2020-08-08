@@ -1,6 +1,8 @@
 package com.scalx.devnews.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;

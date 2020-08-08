@@ -13,6 +13,6 @@ public class Url extends AbstractAuditable {
 
     private String articleLink;
 
-//    private boolean isNew;
+    private boolean isNew;
 
 }
