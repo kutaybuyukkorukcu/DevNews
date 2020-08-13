@@ -50,7 +50,7 @@ public class UrlService {
         Url url = new Url();
 
         url.setArticleLink(articleLink);
-        url.setIsNew(true);
+        url.setNew(true);
 
         return Optional.ofNullable(url);
     }

@@ -1,6 +1,7 @@
 package com.scalx.devnews.service;
 
 import com.scalx.devnews.entity.Like;
+import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
