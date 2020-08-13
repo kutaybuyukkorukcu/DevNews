@@ -12,7 +12,7 @@ import java.util.List;
 public class ArticleService {
 
     @Autowired
-    ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
 
     public void save(Article article) {
         articleRepository.saveAndFlush(article);

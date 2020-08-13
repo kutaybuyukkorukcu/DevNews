@@ -28,10 +28,10 @@ import java.util.stream.Stream;
 public class CrawlerService {
 
     @Autowired
-    Validator validator;
+    private Validator validator;
 
     @Autowired
-    ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
 
     public Article crawlArticleLinkIntoArticle(String articleLink) throws IOException {
         Article article = new Article();

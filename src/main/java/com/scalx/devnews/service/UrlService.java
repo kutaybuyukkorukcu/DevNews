@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UrlService {
 
     @Autowired
-    UrlRepository urlRepository;
+    private UrlRepository urlRepository;
 
     public void save(Url url) {
         urlRepository.save(url);

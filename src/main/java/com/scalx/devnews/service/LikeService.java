@@ -14,13 +14,13 @@ import java.util.Optional;
 public class LikeService {
 
     @Autowired
-    UrlService urlService;
+    private UrlService urlService;
 
     @Autowired
-    CrawlerService crawlerService;
+    private CrawlerService crawlerService;
 
     @Autowired
-    LikeRepository likeRepository;
+    private LikeRepository likeRepository;
 
     public List<Like> getLikes() {
         List<Like> likeList = likeRepository.findAll();

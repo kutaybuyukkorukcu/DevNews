@@ -5,6 +5,7 @@ import com.scalx.devnews.entity.Like;
 import com.scalx.devnews.entity.Recommendation;
 import com.scalx.devnews.repository.ArticleRepository;
 import com.scalx.devnews.utils.CacheLists;
+import com.scalx.devnews.utils.MainTopics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,10 @@ import java.util.List;
 public class RecommendationService {
 
     @Autowired
-    LikeService likeService;
+    private LikeService likeService;
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     @PostConstruct
     private void postConstruct() {
