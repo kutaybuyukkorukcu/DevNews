@@ -1,26 +1,19 @@
 package com.scalx.devnews.service;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Like;
 import com.scalx.devnews.entity.Recommendation;
-import com.scalx.devnews.exception.GetRecommendationHttpException;
 import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.repository.ArticleRepository;
 import com.scalx.devnews.utils.CacheLists;
 import com.scalx.devnews.utils.MainTopics;
-import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;

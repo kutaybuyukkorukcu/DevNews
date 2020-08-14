@@ -19,7 +19,7 @@ public class UserController {
     private UserService userService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+    @RequestMapping(value = "/users/sign-in", method = RequestMethod.POST)
     public ResponseEntity<?> signin() {
 
 //        User requestUser = new Gson().fromJson(request.body(), User.class);
@@ -37,7 +37,7 @@ public class UserController {
         return ResponseEntity.ok(new Article());
     }
 
-    @RequestMapping(value = "/v1/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST)
     public ResponseEntity<?> signup(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.ok(new Article());
     }
 
-    @RequestMapping(value = "/v1/users/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUsers(@PathVariable final int id) {
 
         Optional<User> user = userService.findById(id);
