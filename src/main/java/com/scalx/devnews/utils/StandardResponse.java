@@ -14,6 +14,11 @@ public class StandardResponse {
     private LocalDateTime timestamp;
     private JsonNode data;
 
+    public StandardResponse(LocalDateTime time, String message) {
+        this.timestamp = timestamp;
+        this.message = message;
+    }
+
     public StandardResponse(LocalDateTime timestamp, StatusResponse status, int statusCode) {
         this.timestamp = timestamp;
         this.status = status;
