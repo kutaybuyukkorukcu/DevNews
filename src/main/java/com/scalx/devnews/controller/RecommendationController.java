@@ -6,12 +6,14 @@ import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.service.LikeService;
 import com.scalx.devnews.service.RecommendationService;
 import com.scalx.devnews.utils.CacheLists;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 public class RecommendationController {
 

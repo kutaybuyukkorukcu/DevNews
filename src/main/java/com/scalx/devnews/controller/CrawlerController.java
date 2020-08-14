@@ -4,6 +4,7 @@ import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.service.ArticleService;
 import com.scalx.devnews.service.CrawlerService;
 import com.scalx.devnews.service.UrlService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RestController
 public class CrawlerController {
 
