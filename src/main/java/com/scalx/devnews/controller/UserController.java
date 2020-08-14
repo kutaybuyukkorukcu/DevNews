@@ -5,18 +5,19 @@ import com.scalx.devnews.entity.User;
 import com.scalx.devnews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public ResponseEntity<?> signin() {
@@ -37,11 +38,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/v1/signup", method = RequestMethod.POST)
-    public ResponseEntity<?> signup() {
-
-//        User user = new Gson().fromJson(request.body(), User.class);
-
-//        userService.save(user);
+    public ResponseEntity<?> signup(@RequestBody User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userService.save(user);
 
         return ResponseEntity.ok(new Article());
     }

@@ -112,7 +112,7 @@ public class RecommendationService {
                 .collect(Collectors.toList());
     }
 
-    public void recommendationListToArticleLIst(List<Recommendation> recommendationList, List<Article> recommendedArticles) {
+    public void recommendationListToArticleList(List<Recommendation> recommendationList, List<Article> recommendedArticles) {
         // TODO : should we check if static list recommendations is present or not ? Dont forget to implement tests
         Iterator<Recommendation> iter = recommendationList.iterator();
 
@@ -168,5 +168,23 @@ public class RecommendationService {
             // TODO: i shouldnt check for else because of isNull exception
 
         }
+    }
+
+    public void topRecommendationsIntoArticleList() {
+        CacheLists.development = getTopRecommendationsFromList(CacheLists.development);
+        CacheLists.architecture = getTopRecommendationsFromList(CacheLists.architecture);
+        CacheLists.ai = getTopRecommendationsFromList(CacheLists.ai);
+        CacheLists.culture = getTopRecommendationsFromList(CacheLists.culture);
+        CacheLists.devops = getTopRecommendationsFromList(CacheLists.devops);
+
+        recommendationListToArticleList(CacheLists.development, CacheLists.recommendedArticles);
+        recommendationListToArticleList(CacheLists.architecture, CacheLists.recommendedArticles);
+        recommendationListToArticleList(CacheLists.ai, CacheLists.recommendedArticles);
+        recommendationListToArticleList(CacheLists.culture, CacheLists.recommendedArticles);
+        recommendationListToArticleList(CacheLists.devops, CacheLists.recommendedArticles);
+
+        // TODO : mailService implementation (check legacy code)
+
+        // TODO : recommendedArticles.toString() -> mail formatina donusturecek bir fonksiyon yaz.
     }
 }
