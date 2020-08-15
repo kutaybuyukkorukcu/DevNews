@@ -76,6 +76,10 @@ public class LoggingAspect {
             logger.debug("Enter: {}.{}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
                     joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
         }
+
+        String methodName = joinPoint.getSignature().getName();
+        logger.info("Before " + methodName);
+
         try {
             Object result = joinPoint.proceed();
             if (logger.isDebugEnabled()) {
@@ -89,8 +93,5 @@ public class LoggingAspect {
 
             throw e;
         }
-
-        String methodName = joinPoint.getSignature().getName();
-        logger.info("Before " + methodName);
     }
 }

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Data
 public class Recommendation extends AbstractAuditable {
 
-    private int articleId;
+    private Long articleId;
     private double similarityScore;
 
 //    private boolean isNew;
