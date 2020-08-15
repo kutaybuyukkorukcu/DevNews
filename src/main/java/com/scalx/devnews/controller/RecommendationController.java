@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequestMapping(value = "/recommend")
 public class RecommendationController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class RecommendationController {
     @Autowired
     private RecommendationService recommendationService;
 
-    @RequestMapping(value = "/v1/recommend", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> recommend() {
 
         CacheLists.recommendedArticles.clear();

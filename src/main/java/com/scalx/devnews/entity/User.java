@@ -14,5 +14,7 @@ public class User extends AbstractAuditable {
     private String username;
     private String password;
 
+//    @Email
+//    private String email;
 //    private boolean isActive;
 }

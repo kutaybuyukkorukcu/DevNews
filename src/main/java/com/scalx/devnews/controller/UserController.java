@@ -15,13 +15,14 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@RequestMapping(value = "/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @RequestMapping(value = "/users/sign-in", method = RequestMethod.POST)
+    @RequestMapping(value = "/sign-in", method = RequestMethod.POST)
     public ResponseEntity<?> signin() {
 
 //        User requestUser = new Gson().fromJson(request.body(), User.class);
@@ -39,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(new Article());
     }
 
-    @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST)
+    @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
     public ResponseEntity<?> signup(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
@@ -47,7 +48,7 @@ public class UserController {
         return ResponseEntity.ok(new Article());
     }
 
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUsers(@PathVariable final int id) {
 
         Optional<User> user = userService.findById(id);

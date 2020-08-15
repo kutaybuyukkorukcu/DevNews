@@ -10,9 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Component
 @Aspect
 public class LoggingAspect {
 
@@ -36,7 +38,6 @@ public class LoggingAspect {
     @Pointcut("within(com.scalx.devnews.repository..*)"+
             " || within(com.scalx.devnews.service..*)"+
             " || within(com.scalx.devnews.controller..*)")
-
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
     }
@@ -57,6 +58,9 @@ public class LoggingAspect {
             logger.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
                     joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL");
         }
+
+        String methodName = joinPoint.getSignature().getName();
+        logger.info("Before " + methodName);
     }
 
     /**
@@ -85,5 +89,8 @@ public class LoggingAspect {
 
             throw e;
         }
+
+        String methodName = joinPoint.getSignature().getName();
+        logger.info("Before " + methodName);
     }
 }

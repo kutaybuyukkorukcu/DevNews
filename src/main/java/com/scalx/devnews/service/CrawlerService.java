@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@Transactional
 @Service
 public class CrawlerService {
 
