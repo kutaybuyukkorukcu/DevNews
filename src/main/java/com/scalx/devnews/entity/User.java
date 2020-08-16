@@ -3,8 +3,8 @@ package com.scalx.devnews.entity;
 import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "user")
@@ -14,7 +14,21 @@ public class User extends AbstractAuditable {
     private String username;
     private String password;
 
-//    @Email
+//    @EmailValidator
 //    private String email;
 //    private boolean isActive;
+
+//    private boolean enabled;
+//    private boolean tokenExpired;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id")
+            )
+    private Collection<Role> roles;
+
 }

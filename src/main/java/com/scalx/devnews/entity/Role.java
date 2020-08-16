@@ -9,8 +9,6 @@ import java.util.Collection;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Role {
 
     @Id
@@ -25,8 +23,14 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id")
     )
-    private Collection<Privelege> priveleges;
+    private Collection<Privilege> privileges;
 
     private String name;
 
+    public Role() {
+    }
+
+    public Role(final String name) {
+        this.name = name;
+    }
 }

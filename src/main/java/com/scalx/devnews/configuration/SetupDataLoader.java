@@ -1,7 +1,21 @@
 package com.scalx.devnews.configuration;
 
+import com.scalx.devnews.entity.Privilege;
 import com.scalx.devnews.entity.Role;
 import com.scalx.devnews.entity.User;
+import com.scalx.devnews.repository.PrivilegeRepository;
+import com.scalx.devnews.repository.RoleRepository;
+import com.scalx.devnews.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class SetupDataLoader implements
@@ -65,6 +79,7 @@ public class SetupDataLoader implements
             String name, Collection<Privilege> privileges) {
 
         Role role = roleRepository.findByName(name);
+
         if (role == null) {
             role = new Role(name);
             role.setPrivileges(privileges);
