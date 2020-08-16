@@ -29,9 +29,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private MessageSource messageSource;
 
     @Autowired

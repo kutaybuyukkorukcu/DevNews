@@ -11,13 +11,13 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+@Documented
+@Constraint(validatedBy = PasswordConstraintValidator.class)
 @Target({ TYPE, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailConstraintValidator.class)
-@Documented
-public @interface EmailConstraint {
+public @interface PasswordConstraint {
 
-    String message() default "Invalid Email";
+    String message() default "Invalid Password";
 
     Class<?>[] groups() default {};
 

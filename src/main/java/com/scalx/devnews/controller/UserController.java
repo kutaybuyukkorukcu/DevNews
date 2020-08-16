@@ -42,6 +42,7 @@ public class UserController {
 
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
     public ResponseEntity<?> signup(@RequestBody User user) {
+        // TODO : Client sends encoded password to API. Using PasswordEncoder till Integration tests.
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
 

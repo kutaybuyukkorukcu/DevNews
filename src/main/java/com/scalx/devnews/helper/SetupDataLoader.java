@@ -54,7 +54,7 @@ public class SetupDataLoader implements
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         User user = new User();
         user.setUsername("test");
-        //
+        // TODO : Client sends encoded password to API. Using PasswordEncoder till Integration tests.
         user.setPassword(passwordEncoder.encode("test"));
         user.setEmail("test@test.com");
         user.setRoles(Arrays.asList(adminRole));
