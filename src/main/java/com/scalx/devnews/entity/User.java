@@ -1,5 +1,6 @@
 package com.scalx.devnews.entity;
 
+import com.scalx.devnews.validation.EmailConstraint;
 import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
@@ -14,12 +15,11 @@ public class User extends AbstractAuditable {
     private String username;
     private String password;
 
-//    @EmailValidator
-//    private String email;
-//    private boolean isActive;
+    @EmailConstraint
+    private String email;
 
-//    private boolean enabled;
-//    private boolean tokenExpired;
+    private boolean enabled;
+    private boolean tokenExpired;
 
     @ManyToMany
     @JoinTable(

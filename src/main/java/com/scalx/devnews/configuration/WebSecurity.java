@@ -2,7 +2,7 @@ package com.scalx.devnews.configuration;
 
 import com.scalx.devnews.security.JWTAuthenticationFilter;
 import com.scalx.devnews.security.JWTAuthorizationFilter;
-import com.scalx.devnews.service.UserDetailsServiceImpl;
+import com.scalx.devnews.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

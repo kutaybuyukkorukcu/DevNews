@@ -1,4 +1,4 @@
-package com.scalx.devnews.configuration;
+package com.scalx.devnews.helper;
 
 import com.scalx.devnews.entity.Privilege;
 import com.scalx.devnews.entity.Role;
@@ -54,6 +54,7 @@ public class SetupDataLoader implements
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         User user = new User();
         user.setUsername("test");
+        //
         user.setPassword(passwordEncoder.encode("test"));
         user.setEmail("test@test.com");
         user.setRoles(Arrays.asList(adminRole));
