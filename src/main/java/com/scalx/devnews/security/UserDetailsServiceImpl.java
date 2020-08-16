@@ -35,8 +35,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private RoleRepository roleRepository;
 
     @Override
-    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
+
+        // TODO : Wrap below in try/catch if needed - Test first.
 
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username " + email);
@@ -49,11 +51,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(
-            final Collection<Role> roles) {
+            Collection<Role> roles) {
         return getGrantedAuthorities(getPrivileges(roles));
     }
 
-    private List<String> getPrivileges(final Collection<Role> roles) {
+    private List<String> getPrivileges(Collection<Role> roles) {
 
         List<String> privileges = new ArrayList<>();
         List<Privilege> collection = new ArrayList<>();
@@ -69,7 +71,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return privileges;
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(final List<String> privileges) {
+    private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         for (String privilege : privileges) {

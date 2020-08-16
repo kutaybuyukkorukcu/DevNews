@@ -1,13 +1,13 @@
 package com.scalx.devnews;
 
-import com.scalx.devnews.utils.CacheLists;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.annotation.PostConstruct;
-
+@EnableScheduling
 @SpringBootApplication
 public class DevnewsApplication {
 
@@ -15,10 +15,11 @@ public class DevnewsApplication {
 		SpringApplication.run(DevnewsApplication.class, args);
 	}
 
-	@PostConstruct
-	public void initializeCacheLists() {
-		CacheLists.generateLists();
-	}
+	// TODO : If @Bean constructor doesn't work, get back to using @PostConstruct
+//	@PostConstruct
+//	public void initializeCacheLists() {
+//		CacheListsConfig.generateLists();
+//	}
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {

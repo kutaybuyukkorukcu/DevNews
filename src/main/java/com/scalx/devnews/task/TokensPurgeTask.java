@@ -4,13 +4,13 @@ import com.scalx.devnews.repository.PasswordResetTokenRepository;
 import com.scalx.devnews.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Date;
 
-@Service
+@Component
 @Transactional
 public class TokensPurgeTask {
 

@@ -15,7 +15,7 @@ public class CacheLists {
     public static List<Recommendation> devops = null;
     public static List<Article> recommendedArticles = null;
 
-    public static void generateLists() {
+    public CacheLists() {
         development = new ArrayList<>();
         architecture = new ArrayList<>();
         ai = new ArrayList<>();
@@ -23,4 +23,13 @@ public class CacheLists {
         devops = new ArrayList<>();
         recommendedArticles = new ArrayList<>();
     }
+
+//    public static void generateLists() {
+//        development = new ArrayList<>();
+//        architecture = new ArrayList<>();
+//        ai = new ArrayList<>();
+//        culture = new ArrayList<>();
+//        devops = new ArrayList<>();
+//        recommendedArticles = new ArrayList<>();
+//    }
 }

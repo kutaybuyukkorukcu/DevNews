@@ -18,7 +18,6 @@ import org.passay.SpecialCharacterRule;
 import org.passay.UppercaseCharacterRule;
 import org.passay.WhitespaceRule;
 
-
 public class PasswordConstraintValidator implements ConstraintValidator<PasswordConstraint, String> {
 
     @Override
@@ -29,7 +28,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
 
-        PasswordConstraintValidator validator = new PasswordConstraintValidator(Arrays.asList(
+        PasswordValidator validator = new PasswordValidator(Arrays.asList(
                 new LengthRule(8, 30),
                 new UppercaseCharacterRule(1),
                 new DigitCharacterRule(1),
@@ -48,6 +47,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
         constraintValidatorContext.disableDefaultConstraintViolation();
         constraintValidatorContext.buildConstraintViolationWithTemplate(Joiner.on(",").join(
                 validator.getMessages(result))).addConstraintViolation();
+
         return false;
     }
 }
