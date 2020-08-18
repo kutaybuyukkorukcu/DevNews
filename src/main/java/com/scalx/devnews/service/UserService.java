@@ -3,14 +3,13 @@ package com.scalx.devnews.service;
 import com.scalx.devnews.entity.PasswordResetToken;
 import com.scalx.devnews.entity.User;
 import com.scalx.devnews.entity.VerificationToken;
-import com.scalx.devnews.exception.UserAlreadyExistException;
+import com.scalx.devnews.exception.UserExistsException;
 import com.scalx.devnews.repository.PasswordResetTokenRepository;
 import com.scalx.devnews.repository.RoleRepository;
 import com.scalx.devnews.repository.UserRepository;
 import com.scalx.devnews.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +49,7 @@ public class UserService {
     // TODO : Implement DTO's
     public User registerUser(final User userDto) {
         if (userRepository.findByEmail(userDto.getEmail()) == null) {
-            throw new UserAlreadyExistException("There is an account with that email address : " + userDto.getEmail());
+            throw new UserExistsException("There is an account with that email address : " + userDto.getEmail());
         }
 
         User user = new User();
