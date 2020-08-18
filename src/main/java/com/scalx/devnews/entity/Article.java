@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "article")
 @Data
 public class Article extends AbstractAuditable {
 

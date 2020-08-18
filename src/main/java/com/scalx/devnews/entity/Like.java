@@ -8,7 +8,6 @@ import javax.persistence.Table;
 
 @Entity
 @Data
-@Table(name = "like")
 public class Like extends AbstractAuditable {
 
     private String title;

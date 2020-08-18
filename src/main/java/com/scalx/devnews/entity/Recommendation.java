@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "recommendation")
 @Data
 public class Recommendation extends AbstractAuditable {
 

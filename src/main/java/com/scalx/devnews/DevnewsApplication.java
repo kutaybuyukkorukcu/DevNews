@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@EnableScheduling
 @SpringBootApplication
 public class DevnewsApplication {
 
@@ -20,9 +19,4 @@ public class DevnewsApplication {
 //	public void initializeCacheLists() {
 //		CacheListsConfig.generateLists();
 //	}
-
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 }

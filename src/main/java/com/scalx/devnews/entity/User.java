@@ -1,6 +1,7 @@
 package com.scalx.devnews.entity;
 
 import com.scalx.devnews.validation.EmailConstraint;
+import com.scalx.devnews.validation.PasswordConstraint;
 import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
@@ -8,14 +9,13 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "user")
 @Data
 public class User extends AbstractAuditable {
 
     private String username;
+
     private String password;
 
-    @EmailConstraint
     private String email;
 
     private boolean enabled;
