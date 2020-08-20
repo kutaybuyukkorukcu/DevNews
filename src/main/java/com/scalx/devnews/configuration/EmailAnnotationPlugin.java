@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static springfox.bean.validators.plugins.Validators.annotationFromBean;
 
+// TODO : This is the swagger config of email-annotation
 @Component
 @Order(Validators.BEAN_VALIDATOR_PLUGIN_ORDER)
 public class EmailAnnotationPlugin implements ModelPropertyBuilderPlugin {
