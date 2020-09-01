@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class Role {
+public class Role extends BaseEntity<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

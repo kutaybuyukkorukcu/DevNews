@@ -1,6 +1,7 @@
 package com.scalx.devnews.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractAuditable;
@@ -9,7 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Article extends AbstractAuditable {
+@EqualsAndHashCode(callSuper = true)
+public class Article extends BaseEntity<User> {
 
     @Column(name = "title")
     private String title;

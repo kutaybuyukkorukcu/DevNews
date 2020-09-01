@@ -34,10 +34,10 @@ public class RecommendationService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    @PostConstruct
-    private void postConstruct() {
-        CacheLists.generateLists();
-    }
+//    @PostConstruct
+//    private void postConstruct() {
+//        CacheLists.generateLists();
+//    }
 
     public void recommendationIntoRecommendationList(JsonNode jsonNode, List<Recommendation> recommendationList) {
 
@@ -47,7 +47,7 @@ public class RecommendationService {
             Recommendation recommendation = new Recommendation();
             JsonNode arr = iter.next();
             // Because recom.py subtracts 1 from articleID
-            recommendation.setArticleId(arr.path(0).asInt() + 1);
+            recommendation.setArticleId(arr.path(0).asLong() + 1);
             recommendation.setSimilarityScore(arr.path(1).asDouble());
             recommendationList.add(recommendation);
         }
@@ -112,7 +112,7 @@ public class RecommendationService {
         Iterator<Recommendation> iter = recommendationList.iterator();
 
         while(iter.hasNext()) {
-            int articleID = iter.next().getArticleId();
+            long articleID = iter.next().getArticleId();
 
             Article article = articleRepository.findByArticleId(articleID);
 
