@@ -9,7 +9,7 @@ import java.util.Optional;
 @Component
 public class Validator {
 
-    public Map<String, String> generic = new HashMap();
+    public Map<String, String> generic = new HashMap<>();
 
     public Validator() {
         setDevelopment();

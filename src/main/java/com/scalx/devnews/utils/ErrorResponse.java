@@ -12,6 +12,10 @@ public class ErrorResponse {
     private int statusCode;
     private String message;
 
+    public ErrorResponse() {
+
+    }
+
     public ErrorResponse(LocalDateTime timestamp, String message) {
         this.timestamp = timestamp;
         this.message = message;

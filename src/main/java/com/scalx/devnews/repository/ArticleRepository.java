@@ -9,7 +9,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     public Article findByTitle(String title);
 
-    public Article findByArticleId(int articleId);
+    public Article findByArticleId(long articleId);
 
     public Article findByArticleLink(String link);
 }

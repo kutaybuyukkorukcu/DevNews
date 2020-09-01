@@ -3,6 +3,7 @@ package com.scalx.devnews.entity;
 import com.scalx.devnews.validation.EmailConstraint;
 import com.scalx.devnews.validation.PasswordConstraint;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
@@ -10,7 +11,8 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class User extends AbstractAuditable {
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity<User> {
 
     private String username;
 
