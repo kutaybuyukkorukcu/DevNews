@@ -20,18 +20,24 @@ public class BaseEntity<U> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "is_active")
     private boolean isActive;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 
+    @Column(name = "created_by")
     private U createdBy;
 
+    @Column(name = "last_modified_by")
     private U lastModifiedBy;
 
     public boolean isNew() {

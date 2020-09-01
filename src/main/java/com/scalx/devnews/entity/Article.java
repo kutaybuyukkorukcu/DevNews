@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "articles")
 public class Article extends BaseEntity<User> {
 
     @Column(name = "title")
@@ -21,11 +22,8 @@ public class Article extends BaseEntity<User> {
 
     @Column(name = "author")
     private String author;
-    @Column(name = "relatedTopics")
+    @Column(name = "related_topics")
     private String relatedTopics;
     @Column(name = "article_link")
     private String articleLink;
-
-//    @Column(name = "is_new")
-//    private boolean isNew;
 }

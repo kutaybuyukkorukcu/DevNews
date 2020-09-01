@@ -12,15 +12,22 @@ import java.util.Collection;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "users")
 public class User extends BaseEntity<User> {
 
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "email")
     private String email;
-
-    private boolean enabled;
+//
+//    @Column(name = "enabled")
+//    private boolean enabled;
+//
+    @Column(name = "token_expired")
     private boolean tokenExpired;
 
     @ManyToMany
@@ -31,6 +38,6 @@ public class User extends BaseEntity<User> {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id")
             )
+    @Column(name = "roles")
     private Collection<Role> roles;
-
 }
