@@ -17,4 +17,5 @@ public class Url extends BaseEntity<User> {
 
     @Column(name = "article_link")
     private String articleLink;
+
 }

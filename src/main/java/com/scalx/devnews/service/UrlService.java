@@ -52,7 +52,7 @@ public class UrlService {
         Url url = new Url();
 
         url.setArticleLink(articleLink);
-        url.setNew(true);
+        url.setActive(true);
 
         return Optional.ofNullable(url);
     }

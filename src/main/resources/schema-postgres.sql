@@ -20,4 +20,5 @@ CREATE TABLE urls(id serial PRIMARY KEY, article_link VARCHAR(255),
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users(id serial PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), email VARCHAR(255),
-    token_expired BOOLEAN, )
+    token_expired BOOLEAN, roles TEXT[], is_active BOOLEAN NOT NULL, created_date TIMESTAMP NOT NULL,
+    last_modified_date TIMESTAMP NOT NULL, created_by BOOLEAN NOT NULL, last_modified_by BOOLEAN NOT NULL)

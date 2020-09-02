@@ -23,10 +23,10 @@ public class User extends BaseEntity<User> {
 
     @Column(name = "email")
     private String email;
-//
-//    @Column(name = "enabled")
-//    private boolean enabled;
-//
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @Column(name = "token_expired")
     private boolean tokenExpired;
 

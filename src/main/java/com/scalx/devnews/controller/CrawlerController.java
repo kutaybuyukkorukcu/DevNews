@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/crawl")
+@RequestMapping(value = "/api")
 public class CrawlerController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class CrawlerController {
     @Autowired
     private ArticleService articleService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/crawl", method = RequestMethod.GET)
     public ResponseEntity<?> crawl() {
 
         List<String> articleLinkList = urlService.getArticleLinksAsList();

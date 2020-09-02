@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/urls")
+@RequestMapping(value = "/api")
 public class UrlController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class UrlController {
     @Autowired
     private CrawlerService crawlerService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/urls", method = RequestMethod.GET)
     public ResponseEntity<?> getUrls() {
 
         List<String> articleLinkList;
@@ -60,7 +60,7 @@ public class UrlController {
         return ResponseEntity.ok(new Article());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/urls", method = RequestMethod.POST)
     public ResponseEntity<?> postUrls() {
 
 //        Url url = new Gson().fromJson(request.body(), Url.class);

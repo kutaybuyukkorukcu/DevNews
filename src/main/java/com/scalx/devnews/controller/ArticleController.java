@@ -15,13 +15,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/articles")
+@RequestMapping(value = "/api")
 public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/articles", method = RequestMethod.GET)
     public ResponseEntity<?> articles() {
 
         List<Article> articleList = articleService.getArticles();
