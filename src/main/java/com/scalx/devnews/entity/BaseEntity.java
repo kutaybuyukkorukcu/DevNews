@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @MappedSuperclass
 @Data
-@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BaseEntity<U> implements Serializable {
 

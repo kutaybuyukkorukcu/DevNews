@@ -9,11 +9,11 @@ import java.util.Collection;
 
 @Entity
 @Data
+@Table(name = "roles")
 public class Role extends BaseEntity<User> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "name")
+    private String name;
 
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
@@ -25,9 +25,8 @@ public class Role extends BaseEntity<User> {
     )
     private Collection<Privilege> privileges;
 
-    private String name;
-
     public Role() {
+        super();
     }
 
     public Role(final String name) {

@@ -2,7 +2,6 @@ package com.scalx.devnews.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

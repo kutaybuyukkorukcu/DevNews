@@ -8,20 +8,19 @@ import java.util.Date;
 
 @Entity
 @Data
-public class VerificationToken {
+@Table(name = "verification_tokens")
+public class VerificationToken extends BaseEntity<User> {
 
     private static final int EXPIRATION = 60 * 24;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @Column(name = "token")
     private String token;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id", foreignKey = @ForeignKey(name = "FK_VERIFY_USER"))
     private User user;
 
+    @Column(name = "expiry_date")
     private Date expiryDate;
 
     public VerificationToken() {

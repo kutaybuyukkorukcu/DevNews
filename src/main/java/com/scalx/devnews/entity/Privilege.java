@@ -9,12 +9,10 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class Privilege {
+@Table(name = "privileges")
+public class Privilege extends BaseEntity<User> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "privileges")
