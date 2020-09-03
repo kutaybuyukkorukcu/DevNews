@@ -33,7 +33,8 @@ public class UrlService {
     }
 
     public List<String> getArticleLinksAsList() {
-        List<Url> urlList = urlRepository.findByIsNew();
+
+        List<Url> urlList = urlRepository.findByIsActive(true);
 
         if (urlList == null) {
             return Collections.emptyList();

@@ -114,7 +114,7 @@ public class RecommendationService {
         while(iter.hasNext()) {
             long articleID = iter.next().getArticleId();
 
-            Article article = articleRepository.findByArticleId(articleID);
+            Article article = articleRepository.findById(articleID);
 
             if (article == null) {
                 throw new ResourceNotFoundException();

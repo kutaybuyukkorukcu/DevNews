@@ -5,10 +5,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -25,13 +21,13 @@ public class BaseEntity<U> implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "last_modified_date")
-    private LocalDateTime lastModifiedDate;
+    private Date lastModifiedDate;
 
     @Column(name = "created_by")
     private U createdBy;
@@ -45,12 +41,19 @@ public class BaseEntity<U> implements Serializable {
 
     // If the LocalDateTime creates a conflict in entities refactor to (hypothetically) Optional.of(this.createdDate)
 
-    public Optional<LocalDateTime> getCreatedDate() {
-        return null == this.createdDate ? Optional.empty() : Optional.of(LocalDateTime.ofInstant(Instant.from(this.createdDate), ZoneId.of("Africa/Addis_Ababa")));
+
+    public Optional<Date> getCreatedDate() {
+        return null == this.createdDate ?
+                Optional.empty() : Optional.of(this.createdDate);
+//                Optional.empty() : Optional.of(LocalDateTime.ofInstant((
+//                        Instant.from(this.createdDate.toInstant()), ZoneId.of("Africa/Addis_Ababa")));
     }
 
-    public Optional<LocalDateTime> getLastModifiedDate() {
-        return null == this.lastModifiedDate ? Optional.empty() : Optional.of(LocalDateTime.ofInstant(Instant.from(this.lastModifiedDate), ZoneId.of("Africa/Addis_Ababa")));
+    public Optional<Date> getLastModifiedDate() {
+        return null == this.lastModifiedDate ?
+                Optional.empty() : Optional.of(this.createdDate);
+//                Optional.empty() : Optional.of(LocalDateTime.ofInstant(
+//                        Instant.from(this.lastModifiedDate.toInstant()), ZoneId.of("Africa/Addis_Ababa")));
     }
 
     public Optional<U> getCreatedBy() {

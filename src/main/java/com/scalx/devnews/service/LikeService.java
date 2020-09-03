@@ -36,7 +36,8 @@ public class LikeService {
     }
 
     public List<Like> getNewLikes() {
-        List<Like> likeList = likeRepository.findByIsNew();
+
+        List<Like> likeList = likeRepository.findByIsActive(true);
 
         if (likeList == null) {
             return Collections.emptyList();
