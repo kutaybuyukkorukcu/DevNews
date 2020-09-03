@@ -48,6 +48,7 @@ public class UserService {
 
     // TODO : Implement DTO's
     public User registerUser(final User userDto) {
+
         if (userRepository.findByEmail(userDto.getEmail()) == null) {
             throw new UserExistsException("There is an account with that email address : " + userDto.getEmail());
         }
