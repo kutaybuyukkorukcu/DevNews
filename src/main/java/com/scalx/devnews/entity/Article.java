@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "articles")
-public class Article extends BaseEntity<User> {
+public class Article extends BaseEntity {
 
     @Column(name = "title")
     private String title;

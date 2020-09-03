@@ -13,7 +13,7 @@ import javax.persistence.Column;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "likes")
-public class Like extends BaseEntity<User> {
+public class Like extends BaseEntity {
 
     @Column(name = "title")
     private String title;

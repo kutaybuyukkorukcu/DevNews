@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Access;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class LikeService {
     private LikeRepository likeRepository;
 
     public List<Like> getLikes() {
+
         List<Like> likeList = likeRepository.findAll();
 
         if (likeList == null) {
@@ -37,13 +39,21 @@ public class LikeService {
 
     public List<Like> getNewLikes() {
 
-        List<Like> likeList = likeRepository.findByIsActive(true);
+        List<Like> likeList = likeRepository.findAll();
 
-        if (likeList == null) {
+        List<Like> activeLikeList = new ArrayList<>();
+
+        for (Like like: likeList) {
+            if (like.isActive() == true) {
+                activeLikeList.add(like);
+            }
+        }
+
+        if (activeLikeList == null) {
             return Collections.emptyList();
         }
 
-        return likeList;
+        return activeLikeList;
     }
 
     public void addLikedArticlesIntoLikeCollection() {

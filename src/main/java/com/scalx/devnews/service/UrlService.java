@@ -34,15 +34,23 @@ public class UrlService {
 
     public List<String> getArticleLinksAsList() {
 
-        List<Url> urlList = urlRepository.findByIsActive(true);
+        List<Url> urlList = urlRepository.findAll();
 
-        if (urlList == null) {
+        List<Url> activeUrlList = new ArrayList<>();
+
+        for (Url url : urlList) {
+            if (url.isActive() == true) {
+                activeUrlList.add(url);
+            }
+        }
+
+        if (activeUrlList == null) {
             return Collections.emptyList();
         }
 
         List<String> articleLinkList = new ArrayList<>();
 
-        for (Url url : urlList) {
+        for (Url url : activeUrlList) {
             articleLinkList.add(url.getArticleLink());
         }
 

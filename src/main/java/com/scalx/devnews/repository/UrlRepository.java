@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface UrlRepository extends JpaRepository<Url, Long> {
 
-    public List<Url> findByIsActive(boolean isActive);
+//    public List<Url> findByIsActive(boolean isActive);
 }

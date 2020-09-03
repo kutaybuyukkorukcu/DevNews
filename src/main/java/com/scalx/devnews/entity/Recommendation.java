@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "recommendations")
-public class Recommendation extends BaseEntity<User> {
+public class Recommendation extends BaseEntity {
 
     @Column(name = "article_id")
     private Long articleId;

@@ -11,7 +11,7 @@ import java.util.Optional;
 @MappedSuperclass
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class BaseEntity<U> implements Serializable {
+public class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +30,10 @@ public class BaseEntity<U> implements Serializable {
     private Date lastModifiedDate;
 
     @Column(name = "created_by")
-    private U createdBy;
+    private String createdBy;
 
     @Column(name = "last_modified_by")
-    private U lastModifiedBy;
+    private String lastModifiedBy;
 
     public boolean isNew() {
         return this.id == null;
@@ -56,11 +56,11 @@ public class BaseEntity<U> implements Serializable {
 //                        Instant.from(this.lastModifiedDate.toInstant()), ZoneId.of("Africa/Addis_Ababa")));
     }
 
-    public Optional<U> getCreatedBy() {
+    public Optional<String> getCreatedBy() {
         return Optional.ofNullable(this.createdBy);
     }
 
-    public Optional<U> getLastModifiedBy() {
+    public Optional<String> getLastModifiedBy() {
         return Optional.ofNullable(this.lastModifiedBy);
     }
 }

@@ -1,7 +1,5 @@
 package com.scalx.devnews.entity;
 
-import com.scalx.devnews.validation.EmailConstraint;
-import com.scalx.devnews.validation.PasswordConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractAuditable;
@@ -13,7 +11,7 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "users")
-public class User extends BaseEntity<User> {
+public class User extends BaseEntity {
 
     @Column(name = "username")
     private String username;

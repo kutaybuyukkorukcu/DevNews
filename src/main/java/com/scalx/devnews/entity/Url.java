@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "urls")
-public class Url extends BaseEntity<User> {
+public class Url extends BaseEntity {
 
     @Column(name = "article_link")
     private String articleLink;

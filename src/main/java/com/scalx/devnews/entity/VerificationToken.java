@@ -1,6 +1,7 @@
 package com.scalx.devnews.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -9,7 +10,8 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "verification_tokens")
-public class VerificationToken extends BaseEntity<User> {
+@EqualsAndHashCode(callSuper = true)
+public class VerificationToken extends BaseEntity {
 
     private static final int EXPIRATION = 60 * 24;
 
@@ -17,7 +19,7 @@ public class VerificationToken extends BaseEntity<User> {
     private String token;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id", foreignKey = @ForeignKey(name = "FK_VERIFY_USER"))
+    @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
     private User user;
 
     @Column(name = "expiry_date")

@@ -11,5 +11,5 @@ import java.util.List;
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
     // method needs any param ? bool true/false
-    public List<Like> findByIsActive(boolean isActive);
+//    public List<Like> findByIsActive(boolean isActive);
 }
