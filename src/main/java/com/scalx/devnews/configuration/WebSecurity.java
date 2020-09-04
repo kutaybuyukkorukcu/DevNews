@@ -23,6 +23,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+//    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -38,12 +39,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     // TODO : antMatchers - hasRole implementation
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+        http.cors().and().csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+//                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // disabling sessions
     }
 
