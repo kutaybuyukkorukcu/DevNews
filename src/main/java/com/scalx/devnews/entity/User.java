@@ -36,6 +36,5 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id")
             )
-    @Column(name = "roles")
     private Collection<Role> roles;
 }

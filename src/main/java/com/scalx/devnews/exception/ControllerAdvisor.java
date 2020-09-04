@@ -69,14 +69,14 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(RuntimeException.class)
-//    public ResponseEntity<Object> handleRunTimeException(
-//            RuntimeException ex, WebRequest request) {
-//
-//        ErrorResponse errorResponse = new ErrorResponse();
-//        errorResponse.setTimestamp(LocalDateTime.now());
-//        errorResponse.setMessage("Runtime exception check");
-//
-//        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-//    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleRunTimeException(
+            RuntimeException ex, WebRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setMessage("Runtime exception check");
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
 }

@@ -1,11 +1,13 @@
 package com.scalx.devnews.controller;
 
+import com.scalx.devnews.dto.UserRequest;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.User;
 import com.scalx.devnews.service.UserService;
 import com.scalx.devnews.utils.ErrorResponse;
 import jdk.jshell.spi.ExecutionControl;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.http.HttpStatus;
@@ -13,8 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +31,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @RequestMapping(value = "/users/sign-in", method = RequestMethod.POST)
     public ResponseEntity<?> signin() {
@@ -47,35 +57,26 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST)
-    public ResponseEntity<?> signup(@RequestBody User userdto) {
+    public ResponseEntity<?> signup(@RequestBody UserRequest userRequest) {
         // TODO : Client sends encoded password to API. Using PasswordEncoder till Integration tests.
-        try {
-            User user = new User();
-            user.setUsername(userdto.getUsername());
-            user.setEmail(userdto.getEmail());
-            user.setEnabled(userdto.isEnabled());
-            user.setTokenExpired(userdto.isTokenExpired());
-            user.setCreatedBy(userdto.getCreatedBy().get());
-            user.setCreatedDate(userdto.getCreatedDate().get());
-            user.setActive(userdto.isActive());
-            user.setLastModifiedBy(userdto.getLastModifiedBy().get());
-            user.setLastModifiedDate(userdto.getLastModifiedDate().get());
-            user.setPassword(bCryptPasswordEncoder.encode(userdto.getPassword()));
 
-            userService.save(user);
+        User user = modelMapper.map(userRequest, User.class);
 
-            return ResponseEntity.ok(user);
+//            User user = new User();
+//            user.setUsername(userRequest.getUsername());
+//            user.setEmail(userRequest.getEmail());
+//            user.setEnabled(userRequest.isEnabled());
+//            user.setTokenExpired(userRequest.isTokenExpired());
+        user.setCreatedBy(userRequest.getUsername());
+        user.setCreatedDate(java.sql.Date.valueOf(LocalDate.now()));
+        user.setActive(true);
+        user.setLastModifiedBy(userRequest.getUsername());
+        user.setLastModifiedDate(java.sql.Date.valueOf(LocalDate.now()));
+        user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
 
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setMessage("xd");
-            errorResponse.setTimestamp(LocalDateTime.now());
-//
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-//            return ResponseEntity.ok(errorResponse);
+        userService.save(user);
 
-        }
+        return ResponseEntity.ok(user);
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
