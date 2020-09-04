@@ -46,7 +46,7 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
 
-        return ResponseEntity.ok(new Article());
+        return ResponseEntity.ok(user);
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
