@@ -1,7 +1,7 @@
 package com.scalx.devnews.controller;
 
-import com.scalx.devnews.dto.UserRequest;
-import com.scalx.devnews.dto.UserResponse;
+import com.scalx.devnews.dto.user.UserRequest;
+import com.scalx.devnews.dto.user.UserResponse;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.User;
 import com.scalx.devnews.exception.InvalidJwtAuthenticationException;
@@ -9,13 +9,9 @@ import com.scalx.devnews.helper.FieldSetter;
 import com.scalx.devnews.security.JwtUtil;
 import com.scalx.devnews.security.UserDetailsServiceImpl;
 import com.scalx.devnews.service.UserService;
-import com.scalx.devnews.utils.ErrorResponse;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.ErrorPageRegistrar;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,13 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j

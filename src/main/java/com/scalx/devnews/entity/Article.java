@@ -1,9 +1,6 @@
 package com.scalx.devnews.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
@@ -12,6 +9,8 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "articles")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Article extends BaseEntity {
 
     @Column(name = "title")

@@ -1,5 +1,7 @@
 package com.scalx.devnews.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractAuditable;
@@ -13,9 +15,10 @@ import javax.persistence.Table;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "urls")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Url extends BaseEntity {
 
     @Column(name = "article_link")
     private String articleLink;
-
 }

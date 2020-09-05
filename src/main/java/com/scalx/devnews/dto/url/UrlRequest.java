@@ -1,5 +1,6 @@
-package com.scalx.devnews.dto;
+package com.scalx.devnews.dto.url;
 
+import com.scalx.devnews.dto.BaseRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

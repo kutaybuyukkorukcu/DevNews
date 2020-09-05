@@ -1,10 +1,8 @@
 package com.scalx.devnews.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scalx.devnews.dto.UrlRequest;
+import com.scalx.devnews.dto.url.UrlRequest;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Url;
-import com.scalx.devnews.repository.UrlRepository;
 import com.scalx.devnews.service.CrawlerService;
 import com.scalx.devnews.service.UrlService;
 import lombok.extern.slf4j.Slf4j;

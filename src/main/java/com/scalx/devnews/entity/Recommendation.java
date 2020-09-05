@@ -1,5 +1,6 @@
 package com.scalx.devnews.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +12,8 @@ import javax.persistence.Table;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "recommendations")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Recommendation extends BaseEntity {
 
     @Column(name = "article_id")
@@ -18,6 +21,4 @@ public class Recommendation extends BaseEntity {
 
     @Column(name = "similarity_score")
     private double similarityScore;
-
-//    private boolean isNew;
 }

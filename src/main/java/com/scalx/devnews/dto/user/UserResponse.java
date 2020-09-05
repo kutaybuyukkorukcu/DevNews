@@ -1,4 +1,4 @@
-package com.scalx.devnews.dto;
+package com.scalx.devnews.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
