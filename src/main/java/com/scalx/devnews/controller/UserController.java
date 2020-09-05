@@ -1,8 +1,12 @@
 package com.scalx.devnews.controller;
 
 import com.scalx.devnews.dto.UserRequest;
+import com.scalx.devnews.dto.UserResponse;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.User;
+import com.scalx.devnews.exception.InvalidJwtAuthenticationException;
+import com.scalx.devnews.security.JwtUtil;
+import com.scalx.devnews.security.UserDetailsServiceImpl;
 import com.scalx.devnews.service.UserService;
 import com.scalx.devnews.utils.ErrorResponse;
 import jdk.jshell.spi.ExecutionControl;
@@ -12,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,18 +41,39 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    JwtUtil jwtUtil;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     ModelMapper modelMapper;
 
     @RequestMapping(value = "/users/sign-in", method = RequestMethod.POST)
-    public ResponseEntity<?> signin() {
+    public ResponseEntity<?> signin(@RequestBody UserRequest userRequest) throws InvalidJwtAuthenticationException {
 
 //        User requestUser = new Gson().fromJson(request.body(), User.class);
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            throw new InvalidJwtAuthenticationException("Incorrect username or password", e);
+        }
 
-        List<String> roles = new ArrayList<>();
-        roles.add("admin");
+        UserDetails userDetails = userDetailsService
+                .loadUserByUsername(userRequest.getUsername());
+
+        String jwt = jwtUtil.generateToken(userDetails);
+
+//        List<String> roles = new ArrayList<>();
+//        roles.add("admin");
 
 //        Optional<User> user = userService.findByUsername(requestUser.getUsername());
 //        if (!user.isPresent()) {
@@ -53,11 +82,12 @@ public class UserController {
 
 //        String token = jwtAuthentication.createToken(requestUser.getUsername(), roles);
 
-        return ResponseEntity.ok(new Article());
+        return ResponseEntity.ok(new UserResponse(jwt));
     }
 
     @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST)
     public ResponseEntity<?> signup(@RequestBody UserRequest userRequest) {
+
         // TODO : Client sends encoded password to API. Using PasswordEncoder till Integration tests.
 
         User user = modelMapper.map(userRequest, User.class);
