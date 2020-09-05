@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
 
 @Transactional
@@ -43,23 +44,12 @@ public class UserService {
     public static final String TOKEN_VALID = "valid";
 
     public void save(User user) {
-        userRepository.saveAndFlush(user);
-    }
 
-    // TODO : Implement DTO's
-    public User registerUser(final User userDto) {
-
-        if (userRepository.findByUsername(userDto.getUsername()) == null) {
-            throw new UserExistsException("There is an account with that username : " + userDto.getUsername());
+        if (userRepository.findByUsername(user.getUsername()) == null) {
+            throw new UserExistsException("There is an account with that username : " + user.getUsername());
         }
 
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        // TODO : Client sends encoded password to API. Using PasswordEncoder till Integration tests.
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setEmail(userDto.getEmail());
-        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
-        return userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(user);
     }
 
     public User getUser(String verificationToken) {
@@ -160,6 +150,4 @@ public class UserService {
 
         return Optional.ofNullable(user);
     }
-
-
 }

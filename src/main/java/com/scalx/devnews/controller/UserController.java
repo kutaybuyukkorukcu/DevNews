@@ -5,6 +5,7 @@ import com.scalx.devnews.dto.UserResponse;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.User;
 import com.scalx.devnews.exception.InvalidJwtAuthenticationException;
+import com.scalx.devnews.helper.FieldSetter;
 import com.scalx.devnews.security.JwtUtil;
 import com.scalx.devnews.security.UserDetailsServiceImpl;
 import com.scalx.devnews.service.UserService;
@@ -55,10 +56,12 @@ public class UserController {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    FieldSetter<UserRequest, User> fieldSetter;
+
     @RequestMapping(value = "/users/sign-in", method = RequestMethod.POST)
     public ResponseEntity<?> signin(@RequestBody UserRequest userRequest) throws InvalidJwtAuthenticationException {
 
-//        User requestUser = new Gson().fromJson(request.body(), User.class);
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword())
@@ -72,16 +75,6 @@ public class UserController {
 
         String jwt = jwtUtil.generateToken(userDetails);
 
-//        List<String> roles = new ArrayList<>();
-//        roles.add("admin");
-
-//        Optional<User> user = userService.findByUsername(requestUser.getUsername());
-//        if (!user.isPresent()) {
-//            return ResponseEntity.ok(new Article());
-//        }
-
-//        String token = jwtAuthentication.createToken(requestUser.getUsername(), roles);
-
         return ResponseEntity.ok(new UserResponse(jwt));
     }
 
@@ -90,15 +83,13 @@ public class UserController {
 
         // TODO : Client sends encoded password to API. Using PasswordEncoder till Integration tests.
 
-        User user = modelMapper.map(userRequest, User.class);
+        User _user = modelMapper.map(userRequest, User.class);
 
+        // TODO : Remove it after developing client
+        _user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
+//        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
-        user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
-        user.setCreatedBy(userRequest.getUsername());
-        user.setCreatedDate(java.sql.Date.valueOf(LocalDate.now()));
-        user.setActive(true);
-        user.setLastModifiedBy(userRequest.getUsername());
-        user.setLastModifiedDate(java.sql.Date.valueOf(LocalDate.now()));
+        User user = fieldSetter.setFieldsWhenCreate(userRequest, _user);
 
         userService.save(user);
 

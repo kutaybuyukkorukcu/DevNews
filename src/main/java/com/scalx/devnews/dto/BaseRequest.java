@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UrlRequest extends BaseRequest {
+public class BaseRequest {
 
-    private String articleLink;
+    private String accountName;
 }
