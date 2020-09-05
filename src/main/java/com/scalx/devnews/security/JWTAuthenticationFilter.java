@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scalx.devnews.entity.User;
 import com.scalx.devnews.exception.InvalidJwtAuthenticationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,7 @@ import static com.scalx.devnews.utils.SecurityConstants.HEADER_STRING;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {

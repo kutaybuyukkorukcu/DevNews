@@ -62,17 +62,13 @@ public class UserController {
 
         User user = modelMapper.map(userRequest, User.class);
 
-//            User user = new User();
-//            user.setUsername(userRequest.getUsername());
-//            user.setEmail(userRequest.getEmail());
-//            user.setEnabled(userRequest.isEnabled());
-//            user.setTokenExpired(userRequest.isTokenExpired());
+
+        user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
         user.setCreatedBy(userRequest.getUsername());
         user.setCreatedDate(java.sql.Date.valueOf(LocalDate.now()));
         user.setActive(true);
         user.setLastModifiedBy(userRequest.getUsername());
         user.setLastModifiedDate(java.sql.Date.valueOf(LocalDate.now()));
-        user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
 
         userService.save(user);
 
