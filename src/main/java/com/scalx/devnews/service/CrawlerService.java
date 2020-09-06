@@ -76,7 +76,7 @@ public class CrawlerService {
         Path path = Paths.get("src/main/resources/articles.csv");
 
         StringBuilder sb = new StringBuilder();
-        sb.append(((long) article.getId()) + "\t");
+        sb.append(article.getId() + "\t");
         sb.append(article.getTitle() + "\t");
         sb.append(article.getMainTopic() + "\t");
         sb.append(article.getAuthor() + "\t");

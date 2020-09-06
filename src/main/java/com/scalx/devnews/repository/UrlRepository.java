@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UrlRepository extends JpaRepository<Url, Long> {
+public interface UrlRepository extends JpaRepository<Url, Integer> {
 
     @Query(value = "SELECT * FROM urls WHERE is_active = true", nativeQuery = true)
     public List<Url> findAllByActive();
