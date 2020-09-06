@@ -21,6 +21,7 @@ public class ArticleService {
     }
 
     public List<Article> getArticles() {
+
         List<Article> articleList = articleRepository.findAll();
 
         if (articleList == null) {

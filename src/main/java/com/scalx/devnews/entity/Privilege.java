@@ -2,6 +2,7 @@ package com.scalx.devnews.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,7 +11,8 @@ import java.util.Collection;
 @Entity
 @Data
 @Table(name = "privileges")
-public class Privilege extends BaseEntity<User> {
+@EqualsAndHashCode(callSuper = true)
+public class Privilege extends BaseEntity {
 
     @Column(name = "name")
     private String name;
@@ -22,7 +24,7 @@ public class Privilege extends BaseEntity<User> {
         super();
     }
 
-    public Privilege(final String name) {
+    public Privilege(String name) {
         super();
         this.name = name;
     }

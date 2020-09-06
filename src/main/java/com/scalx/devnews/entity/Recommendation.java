@@ -1,7 +1,9 @@
 package com.scalx.devnews.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,13 +13,13 @@ import javax.persistence.Table;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "recommendations")
-public class Recommendation extends BaseEntity<User> {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Recommendation extends BaseEntity {
 
     @Column(name = "article_id")
     private Long articleId;
 
     @Column(name = "similarity_score")
     private double similarityScore;
-
-//    private boolean isNew;
 }

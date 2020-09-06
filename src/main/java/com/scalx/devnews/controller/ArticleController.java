@@ -22,7 +22,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
-    public ResponseEntity<?> articles() {
+    public ResponseEntity<?> getArticles() {
 
         List<Article> articleList = articleService.getArticles();
 

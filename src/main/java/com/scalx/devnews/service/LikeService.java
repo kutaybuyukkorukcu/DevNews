@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Access;
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Transactional
 @Service
@@ -25,7 +23,12 @@ public class LikeService {
     @Autowired
     private LikeRepository likeRepository;
 
+    public void save(Like like) {
+        likeRepository.save(like);
+    }
+
     public List<Like> getLikes() {
+
         List<Like> likeList = likeRepository.findAll();
 
         if (likeList == null) {
@@ -35,8 +38,9 @@ public class LikeService {
         return likeList;
     }
 
-    public List<Like> getNewLikes() {
-        List<Like> likeList = likeRepository.findByIsNew();
+    public List<Like> getLikesByActive() {
+
+        List<Like> likeList = likeRepository.findAllByActive();
 
         if (likeList == null) {
             return Collections.emptyList();
@@ -44,6 +48,25 @@ public class LikeService {
 
         return likeList;
     }
+
+//    public List<Like> getNewLikes() {
+//
+//        List<Like> likeList = likeRepository.findAll();
+//
+//        List<Like> activeLikeList = new ArrayList<>();
+//
+//        for (Like like: likeList) {
+//            if (like.isActive() == true) {
+//                activeLikeList.add(like);
+//            }
+//        }
+//
+//        if (activeLikeList == null) {
+//            return Collections.emptyList();
+//        }
+//
+//        return activeLikeList;
+//    }
 
     public void addLikedArticlesIntoLikeCollection() {
         List<String> articleLinkList = urlService.getArticleLinksAsList();

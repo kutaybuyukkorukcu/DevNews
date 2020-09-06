@@ -1,9 +1,9 @@
 package com.scalx.devnews.entity;
 
-import com.scalx.devnews.validation.EmailConstraint;
-import com.scalx.devnews.validation.PasswordConstraint;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
@@ -13,7 +13,9 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "users")
-public class User extends BaseEntity<User> {
+@AllArgsConstructor
+@NoArgsConstructor
+public class User extends BaseEntity {
 
     @Column(name = "username")
     private String username;
@@ -38,6 +40,15 @@ public class User extends BaseEntity<User> {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id")
             )
-    @Column(name = "roles")
     private Collection<Role> roles;
+
+    public User(String username, String password, String email,
+                boolean enabled, boolean tokenExpired) {
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.enabled = enabled;
+        this.tokenExpired = tokenExpired;
+    }
 }

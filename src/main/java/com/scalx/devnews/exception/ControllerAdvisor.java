@@ -40,9 +40,6 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setTimestamp(LocalDateTime.now());
         errorResponse.setMessage("Account not authorized");
-//        Map<String, Object> body = new LinkedHashMap<>();
-//        body.put("timestamp", LocalDateTime.now());
-//        body.put("message", "")
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
