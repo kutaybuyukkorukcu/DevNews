@@ -29,7 +29,7 @@ public class ArticleServiceTest {
 
         doThrow(new NullPointerException())
                 .doNothing()
-                .when(articleService).save(null);
+                .when(articleService).addArticle(null);
 
         verify(articleRepository).save(null);
         verifyNoMoreInteractions(articleService);
@@ -42,7 +42,7 @@ public class ArticleServiceTest {
                 "Development", "Author", "Development|Java",
                 "www.infoq.com/Whats-new-with-Java-11");
 
-        articleService.save(article);
+        articleService.addArticle(article);
 
         verify(articleRepository).save(article);
         verifyNoMoreInteractions(articleService);

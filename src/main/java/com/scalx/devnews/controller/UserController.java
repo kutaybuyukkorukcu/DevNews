@@ -78,11 +78,11 @@ public class UserController {
         _user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
 //        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
-        User user = fieldSetter.setFieldsWhenCreate(userRequest, _user);
+//        User user = fieldSetter.setFieldsWhenCreate(userRequest, _user);
 
-        userService.save(user);
+        userService.save(_user);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(_user);
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)

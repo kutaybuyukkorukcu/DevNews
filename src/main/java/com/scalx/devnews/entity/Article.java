@@ -1,9 +1,11 @@
 package com.scalx.devnews.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
@@ -11,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "articles")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Article extends BaseEntity {
+public class Article extends BaseEntity implements Serializable {
 
     @Column(name = "title")
     private String title;

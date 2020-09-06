@@ -46,7 +46,7 @@ public class CrawlerController {
                 return ResponseEntity.ok(new Article());
             }
 
-            articleService.save(article);
+            articleService.addArticle(article);
         }
 
         List<Article> articleList = articleService.getArticles();
