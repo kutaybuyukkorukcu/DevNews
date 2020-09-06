@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LikeRepository extends JpaRepository<Like, Long> {
+public interface LikeRepository extends JpaRepository<Like, Integer> {
 
     @Query(value = "SELECT * FROM likes WHERE is_active = true", nativeQuery = true)
     public List<Like> findAllByActive();

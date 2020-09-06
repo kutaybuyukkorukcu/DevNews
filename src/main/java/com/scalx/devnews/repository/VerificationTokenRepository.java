@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.stream.Stream;
 
 @Repository
-public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
+public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Integer> {
 
     VerificationToken findByToken(String token);
 
