@@ -36,7 +36,7 @@ public class BaseEntity implements Serializable {
     private String lastModifiedBy;
 
     public boolean isNew() {
-        return this.id == null;
+        return this.isActive == false;
     }
 
     // If the LocalDateTime creates a conflict in entities refactor to (hypothetically) Optional.of(this.createdDate)

@@ -3,6 +3,7 @@ package com.scalx.devnews.controller;
 import com.scalx.devnews.dto.url.UrlRequest;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Url;
+import com.scalx.devnews.helper.FieldSetter;
 import com.scalx.devnews.service.CrawlerService;
 import com.scalx.devnews.service.UrlService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,9 @@ public class UrlController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    FieldSetter fieldSetter;
 
     // TODO : We don't wanna return urls from file instead of database.
 
@@ -82,7 +86,7 @@ public class UrlController {
     }
 
     @RequestMapping(value = "/urls", method = RequestMethod.POST)
-    public ResponseEntity<?> postUrls(@RequestBody UrlRequest urlRequest) {
+    public ResponseEntity<?> postUrl(@RequestBody UrlRequest urlRequest) {
 
         Url url = modelMapper.map(urlRequest, Url.class);
 

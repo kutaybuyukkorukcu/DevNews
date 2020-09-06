@@ -16,14 +16,15 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public void save(Article article) {
-        articleRepository.saveAndFlush(article);
+    public void addArticle(Article article) {
+        articleRepository.save(article);
     }
 
     public List<Article> getArticles() {
 
         List<Article> articleList = articleRepository.findAll();
 
+        // TODO : Check if the null check works otherwise use != null.
         if (articleList == null) {
             return Collections.emptyList();
         }
@@ -32,9 +33,9 @@ public class ArticleService {
     }
 
     public boolean articleExist(Article article) {
-        Article returnedArticle = articleRepository.findByTitle(article.getTitle());
+        Article _article = articleRepository.findByTitle(article.getTitle());
 
-        if (returnedArticle == null) {
+        if (_article == null) {
             return false;
         }
 
