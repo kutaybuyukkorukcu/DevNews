@@ -22,7 +22,7 @@ public class LoggingAspect {
 
     private final String SPRING_PROFILE_DEV = "dev";
 
-    private final Environment env;
+    private Environment env;
 
     public LoggingAspect(Environment env) {
         this.env = env;

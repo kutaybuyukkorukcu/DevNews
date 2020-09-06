@@ -33,38 +33,52 @@ public class UrlController {
     @Autowired
     ModelMapper modelMapper;
 
+    // TODO : We don't wanna return urls from file instead of database.
+
+//    @RequestMapping(value = "/urls", method = RequestMethod.GET)
+//    public ResponseEntity<?> getUrls() {
+//
+//        List<String> articleLinkList;
+//
+//        try {
+//            articleLinkList = crawlerService.getArticleLinksFromFileAsList();
+//        } catch (IOException e) {
+//            return ResponseEntity.ok(new Article());
+//        }
+//
+//        if (articleLinkList.isEmpty()) {
+//            return ResponseEntity.ok(new Article());
+//        }
+//
+//        for (String articleLink : articleLinkList) {
+//            Optional<Url> url = urlService.articleLinkToUrl(articleLink);
+//
+//            if (!url.isPresent()) {
+//                return ResponseEntity.ok(new Article());
+//            }
+//
+//            urlService.save(url.get());
+//        }
+//
+//        List<String> allArticleLinkList = urlService.getArticleLinksAsList();
+//
+//        if (allArticleLinkList.isEmpty()) {
+//            return ResponseEntity.ok(new Article());
+//        }
+//
+//        return ResponseEntity.ok(new Article());
+//    }
+
     @RequestMapping(value = "/urls", method = RequestMethod.GET)
     public ResponseEntity<?> getUrls() {
 
-        List<String> articleLinkList;
+        List<Url> urlList = urlService.getUrlsByActive();
 
-        try {
-            articleLinkList = crawlerService.getArticleLinksFromFileAsList();
-        } catch (IOException e) {
-            return ResponseEntity.ok(new Article());
+        if (urlList.isEmpty()) {
+            return ResponseEntity.ok(new Url());
         }
 
-        if (articleLinkList.isEmpty()) {
-            return ResponseEntity.ok(new Article());
-        }
-
-        for (String articleLink : articleLinkList) {
-            Optional<Url> url = urlService.articleLinkToUrl(articleLink);
-
-            if (!url.isPresent()) {
-                return ResponseEntity.ok(new Article());
-            }
-
-            urlService.save(url.get());
-        }
-
-        List<String> allArticleLinkList = urlService.getArticleLinksAsList();
-
-        if (allArticleLinkList.isEmpty()) {
-            return ResponseEntity.ok(new Article());
-        }
-
-        return ResponseEntity.ok(new Article());
+        return ResponseEntity.ok(urlList);
     }
 
     @RequestMapping(value = "/urls", method = RequestMethod.POST)

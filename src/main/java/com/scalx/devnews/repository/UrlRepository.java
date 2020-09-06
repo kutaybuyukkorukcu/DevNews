@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface UrlRepository extends JpaRepository<Url, Long> {
 
-//    public List<Url> findByIsActive(boolean isActive);
+    @Query(value = "SELECT * FROM urls WHERE is_active = true", nativeQuery = true)
+    public List<Url> findAllByActive();
 }

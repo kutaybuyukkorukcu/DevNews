@@ -24,7 +24,7 @@ public class Privilege extends BaseEntity {
         super();
     }
 
-    public Privilege(final String name) {
+    public Privilege(String name) {
         super();
         this.name = name;
     }

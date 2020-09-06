@@ -1,5 +1,6 @@
 package com.scalx.devnews.service;
 
+import com.scalx.devnews.entity.Like;
 import com.scalx.devnews.entity.Url;
 import com.scalx.devnews.repository.UrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,25 +33,28 @@ public class UrlService {
         return urlList;
     }
 
-    public List<String> getArticleLinksAsList() {
+    public List<Url> getUrlsByActive() {
 
-        List<Url> urlList = urlRepository.findAll();
+        List<Url> urlList = urlRepository.findAllByActive();
 
-        List<Url> activeUrlList = new ArrayList<>();
-
-        for (Url url : urlList) {
-            if (url.isActive() == true) {
-                activeUrlList.add(url);
-            }
+        if (urlList == null) {
+            return Collections.emptyList();
         }
 
-        if (activeUrlList == null) {
+        return urlList;
+    }
+
+    public List<String> getArticleLinksAsList() {
+
+        List<Url> urlList = urlRepository.findAllByActive();
+
+        if (urlList == null) {
             return Collections.emptyList();
         }
 
         List<String> articleLinkList = new ArrayList<>();
 
-        for (Url url : activeUrlList) {
+        for (Url url : urlList) {
             articleLinkList.add(url.getArticleLink());
         }
 

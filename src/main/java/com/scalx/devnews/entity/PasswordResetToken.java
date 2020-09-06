@@ -29,14 +29,14 @@ public class PasswordResetToken extends BaseEntity {
         super();
     }
 
-    public PasswordResetToken(final String token) {
+    public PasswordResetToken(String token) {
         super();
 
         this.token = token;
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
-    public PasswordResetToken(final String token, final User user) {
+    public PasswordResetToken(String token, User user) {
         super();
 
         this.token = token;

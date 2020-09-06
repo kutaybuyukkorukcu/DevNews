@@ -127,7 +127,7 @@ public class RecommendationService {
 
     public void getRecommendations() {
 
-        List<Like> likes = likeService.getNewLikes();
+        List<Like> likes = likeService.getLikesByActive();
 
         if (likes.isEmpty()) {
             throw new ResourceNotFoundException();

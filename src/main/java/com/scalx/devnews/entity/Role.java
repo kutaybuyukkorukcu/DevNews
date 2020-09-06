@@ -31,7 +31,7 @@ public class Role extends BaseEntity {
         super();
     }
 
-    public Role(final String name) {
+    public Role(String name) {
         this.name = name;
     }
 }

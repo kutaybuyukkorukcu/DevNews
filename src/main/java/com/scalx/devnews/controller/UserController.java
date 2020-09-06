@@ -86,7 +86,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUsers(@PathVariable final int id) {
+    public ResponseEntity<?> getUsers(@PathVariable int id) {
 
         Optional<User> user = userService.findById(id);
 

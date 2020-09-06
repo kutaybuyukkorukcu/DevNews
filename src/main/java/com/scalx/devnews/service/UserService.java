@@ -61,7 +61,7 @@ public class UserService {
         return null;
     }
 
-    public VerificationToken getVerificationToken(final String VerificationToken) {
+    public VerificationToken getVerificationToken(String VerificationToken) {
         return verificationTokenRepository.findByToken(VerificationToken);
     }
 
@@ -118,7 +118,7 @@ public class UserService {
     }
 
     public String validateVerificationToken(String token) {
-        final VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
 
         if (verificationToken == null) {
             return TOKEN_INVALID;
