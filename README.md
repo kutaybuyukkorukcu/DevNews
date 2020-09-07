@@ -1,4 +1,4 @@
-### DevNews
+# DevNews
 
 Devnews is a news aggregator application with a built-in recommendation engine for developers. 
 
