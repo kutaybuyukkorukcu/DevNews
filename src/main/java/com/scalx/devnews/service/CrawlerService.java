@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -61,13 +62,11 @@ public class CrawlerService {
 
         String relatedTopics = validator.removeLastChar(topics.toString());
 
-        // articleLink yine DB'den geliyor.
         article.setArticleLink(articleLink);
         article.setAuthor(author);
         article.setTitle(title);
         article.setMainTopic(mainTopic);
         article.setRelatedTopics(relatedTopics);
-//        article.setIsNew(true);
 
         return article;
     }
@@ -87,7 +86,9 @@ public class CrawlerService {
             writer.write(sb.toString());
         } catch (IOException e) {
             // TODO : error handling - log handling
+
             e.printStackTrace();
+//            throw new FileNotFoundException();
         }
     }
 
@@ -119,25 +120,7 @@ public class CrawlerService {
 
         like.setTitle(article.getTitle());
         like.setMainTopic(article.getMainTopic());
-//        like.setIsNew(true);
 
         return Optional.ofNullable(like);
     }
-
-    // TODO : gerek kalmayabilir buna
-//    public void writeLikes(Like like) {
-//
-//        Path path = Paths.get("src/main/resources/likes.csv");
-//
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(like.getTitle() + "\t");
-//        sb.append(like.getMainTopic());
-//
-//        try(BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.APPEND)) {
-//            writer.newLine();
-//            writer.write(sb.toString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

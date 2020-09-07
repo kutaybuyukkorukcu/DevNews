@@ -23,7 +23,7 @@ public class LikeService {
     @Autowired
     private LikeRepository likeRepository;
 
-    public void save(Like like) {
+    public void addLike(Like like) {
         likeRepository.save(like);
     }
 
@@ -31,42 +31,17 @@ public class LikeService {
 
         List<Like> likeList = likeRepository.findAll();
 
-        if (likeList == null) {
-            return Collections.emptyList();
-        }
-
-        return likeList;
+        return likeList != null ? likeList
+                : Collections.emptyList();
     }
 
     public List<Like> getLikesByActive() {
 
         List<Like> likeList = likeRepository.findAllByActive();
 
-        if (likeList == null) {
-            return Collections.emptyList();
-        }
-
-        return likeList;
+        return likeList != null ? likeList
+                : Collections.emptyList();
     }
-
-//    public List<Like> getNewLikes() {
-//
-//        List<Like> likeList = likeRepository.findAll();
-//
-//        List<Like> activeLikeList = new ArrayList<>();
-//
-//        for (Like like: likeList) {
-//            if (like.isActive() == true) {
-//                activeLikeList.add(like);
-//            }
-//        }
-//
-//        if (activeLikeList == null) {
-//            return Collections.emptyList();
-//        }
-//
-//        return activeLikeList;
-//    }
 
     public void addLikedArticlesIntoLikeCollection() {
         List<String> articleLinkList = urlService.getArticleLinksAsList();
@@ -78,7 +53,7 @@ public class LikeService {
         for (String articleLink : articleLinkList) {
             Optional<Like> like = crawlerService.articleLinkToLike(articleLink);
 
-            if (!like.isPresent()) {
+            if (like.isEmpty()) {
 
                 // TODO : error/log handling
                 // TODO : throw custom exception
@@ -88,5 +63,12 @@ public class LikeService {
 
             likeRepository.save(like.get());
         }
+    }
+
+    public Optional<Like> getLikeByTitle(String title) {
+        Like like = likeRepository.findByTitle(title);
+
+        return like != null ? Optional.of(like)
+                : Optional.empty();
     }
 }

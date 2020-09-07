@@ -24,21 +24,13 @@ public class ArticleService {
 
         List<Article> articleList = articleRepository.findAll();
 
-        // TODO : Check if the null check works otherwise use != null.
-        if (articleList == null) {
-            return Collections.emptyList();
-        }
-
-        return articleList;
+        return articleList != null ? articleList
+                : Collections.emptyList();
     }
 
     public boolean articleExist(Article article) {
         Article _article = articleRepository.findByTitle(article.getTitle());
 
-        if (_article == null) {
-            return false;
-        }
-
-        return true;
+        return _article != null;
     }
 }
