@@ -1,5 +1,7 @@
 package com.scalx.devnews.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scalx.devnews.dto.user.UserRequest;
 import com.scalx.devnews.dto.user.UserResponse;
 import com.scalx.devnews.entity.Article;
@@ -9,6 +11,9 @@ import com.scalx.devnews.helper.FieldSetter;
 import com.scalx.devnews.security.JwtUtil;
 import com.scalx.devnews.security.UserDetailsServiceImpl;
 import com.scalx.devnews.service.UserService;
+import com.scalx.devnews.utils.ErrorResponse;
+import com.scalx.devnews.utils.StandardResponse;
+import com.scalx.devnews.utils.StatusResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
@@ -44,6 +50,9 @@ public class UserController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     FieldSetter<UserRequest, User> fieldSetter;
@@ -78,22 +87,35 @@ public class UserController {
         _user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
 //        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
-//        User user = fieldSetter.setFieldsWhenCreate(userRequest, _user);
+        User user = fieldSetter.setFieldsWhenCreate(userRequest, _user);
 
-        userService.save(_user);
+        userService.save(user);
 
-        return ResponseEntity.ok(_user);
+        return ResponseEntity.ok(user);
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUsers(@PathVariable int id) {
+    public ResponseEntity<?> getUserById(@PathVariable int id) {
 
         Optional<User> user = userService.findById(id);
 
-        if (!user.isPresent()) {
-            return ResponseEntity.ok(new Article());
+        if (user.isEmpty()) {
+            return ResponseEntity.ok(new ErrorResponse(
+                    StatusResponse.NOT_FOUND.getStatusCode(),
+                    StatusResponse.NOT_FOUND,
+                    StatusResponse.NOT_FOUND.getMessage(),
+                    LocalDateTime.now()
+            ));
         }
 
-        return ResponseEntity.ok(new Article());
+        JsonNode jsonNode = objectMapper.convertValue(user.get(), JsonNode.class);
+
+        return ResponseEntity.ok(new StandardResponse(
+                StatusResponse.SUCCESS.getStatusCode(),
+                StatusResponse.SUCCESS,
+                StatusResponse.SUCCESS.getMessage(),
+                LocalDateTime.now(),
+                jsonNode
+        ));
     }
 }

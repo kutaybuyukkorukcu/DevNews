@@ -76,4 +76,6 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+//    @ExceptionHandler(FileNotFoundException.class)
 }

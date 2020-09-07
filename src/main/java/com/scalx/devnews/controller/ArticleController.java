@@ -43,7 +43,7 @@ public class ArticleController {
     ModelMapper modelMapper;
 
     @Autowired
-    FieldSetter fieldSetter;
+    FieldSetter<ArticleRequest, Article> fieldSetter;
 
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
     public ResponseEntity<?> getArticles() {
@@ -55,12 +55,11 @@ public class ArticleController {
                StatusResponse.NOT_FOUND.getStatusCode(),
                StatusResponse.NOT_FOUND,
                StatusResponse.NOT_FOUND.getMessage(),
-                    LocalDateTime.now()
+               LocalDateTime.now()
             ));
         }
 
-        JsonNode jsonNode = modelMapper.map(articleList, JsonNode.class);
-
+        JsonNode jsonNode = objectMapper.convertValue(articleList, JsonNode.class);
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
@@ -72,25 +71,19 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/articles", method = RequestMethod.POST)
-    public ResponseEntity<?> postArticle(@RequestBody ArticleRequest articleRequest) throws JsonProcessingException {
+    public ResponseEntity<?> postArticle(@RequestBody ArticleRequest articleRequest) {
 
         Article _article = modelMapper.map(articleRequest, Article.class);
 
-        Article article = (Article) fieldSetter.setFieldsWhenCreate(articleRequest, _article);
+        Article article = fieldSetter.setFieldsWhenCreate(articleRequest, _article);
 
         articleService.addArticle(article);
-
-        JsonNode jsonNode = objectMapper.readValue(
-                objectMapper.writeValueAsString(_article),
-                JsonNode.class
-        );
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
                 StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now(),
-                jsonNode
+                LocalDateTime.now()
         ));
     }
 }
