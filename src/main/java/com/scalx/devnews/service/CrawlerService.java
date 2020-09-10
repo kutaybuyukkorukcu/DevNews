@@ -36,7 +36,7 @@ public class CrawlerService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public Article crawlArticleLinkIntoArticle(String articleLink) throws IOException {
+    public Optional<Article> crawlArticleLinkIntoArticle(String articleLink) throws IOException {
         Article article = new Article();
 
         StringBuilder topics = new StringBuilder();
@@ -68,7 +68,7 @@ public class CrawlerService {
         article.setMainTopic(mainTopic);
         article.setRelatedTopics(relatedTopics);
 
-        return article;
+        return Optional.ofNullable(article);
     }
 
     public void writeArticlesIntoCSV(Article article) {

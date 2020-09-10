@@ -1,18 +1,27 @@
 package com.scalx.devnews.service;
 
 import com.scalx.devnews.entity.Like;
+import com.scalx.devnews.entity.Url;
 import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.repository.LikeRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class LikeServiceTest {
 
     @Mock
@@ -28,36 +37,69 @@ public class LikeServiceTest {
     LikeService likeService;
 
     @Test
+    public void test_addUrl_whenUrlIsNotPresent() {
+
+        doThrow(new NullPointerException())
+                .when(likeService).addLike(null);
+
+        assertThatExceptionOfType(NullPointerException.class)
+                .isThrownBy(() -> {
+                    likeService.addLike(null);
+                });
+
+        verify(likeRepository).save(null);
+        verifyNoMoreInteractions(likeService);
+    }
+
+    @Test
+    public void test_addUrl_whenUrlIsPresent() {
+
+        Like like = new Like("What's new with Java 11", "Development");
+
+        likeService.addLike(like);
+
+        verify(likeRepository).save(any(Like.class));
+        verifyNoMoreInteractions(likeService);
+    }
+
+    @Test
+    public void test_getUrls_whenFindAllIsNotPresent() {
+
+    }
+
+    @Test
+    public void test_getUrls_whenFindAllIsPresent() {
+
+    }
+
+    @Test
     public void test_getLikesByActive_whenFindAllByActiveIsNotPresent() {
 
         when(likeRepository.findAllByActive()).thenReturn(null);
 
         List<Like> expectedLikeList = likeService.getLikesByActive();
-
         List<Like> likeList = new ArrayList<>();
 
-        verify(likeRepository).findAllByActive();
         assertThat(likeList).isEqualTo(expectedLikeList);
+
+        verify(likeRepository).findAllByActive();
         verifyNoMoreInteractions(likeService);
     }
 
     @Test
     public void test_getLikesByActive_whenFindAllByActiveIsPresent() {
 
-        Like like = new Like("What's new with Java 11", "Development");
-        Like like1 = new Like("Comprehensive guide to unit testing", "Development");
-
         List<Like> likeList = new ArrayList<>();
-        likeList.add(like);
-        likeList.add(like1);
+        likeList.add(new Like("What's new with Java 11", "Development"));
+        likeList.add(new Like("Comprehensive guide to unit testing", "Development"));
 
         when(likeRepository.findAllByActive()).thenReturn(likeList);
 
         List<Like> expectedLikeList = likeService.getLikesByActive();
 
-        verify(likeRepository).findAllByActive();
-
         assertThat(likeList).isEqualTo(expectedLikeList);
+
+        verify(likeRepository).findAllByActive();
         verifyNoMoreInteractions(likeService);
     }
 
@@ -69,7 +111,6 @@ public class LikeServiceTest {
         when(urlService.getArticleLinksAsList()).thenReturn(articleLinkList);
 
         doThrow(new ResourceNotFoundException())
-                .doNothing()
                 .when(likeService).addLikedArticlesIntoLikeCollection();
 
         verify(urlService).getArticleLinksAsList();
@@ -84,16 +125,15 @@ public class LikeServiceTest {
         articleLinkList.add("www.dzone.com/Comprehensive-guide-to-unit-testing");
 
         when(urlService.getArticleLinksAsList()).thenReturn(articleLinkList);
-        verify(urlService).getArticleLinksAsList();
 
         String articleLink = "www.infoq.com/Whats-new-with-java-11";
 
-        when(crawlerService.articleLinkToLike(articleLink).get()).thenReturn(null);
+        when(crawlerService.articleLinkToLike(articleLink)).thenReturn(Optional.empty());
 
         doThrow(new ResourceNotFoundException())
-                .doNothing()
                 .when(likeService).addLikedArticlesIntoLikeCollection();
 
+        verify(urlService).getArticleLinksAsList();
         verify(crawlerService).articleLinkToLike(articleLink);
         verifyNoMoreInteractions(likeService);
     }
@@ -115,6 +155,38 @@ public class LikeServiceTest {
         verify(crawlerService).articleLinkToLike(articleLink);
 
         verify(likeRepository).save(like);
+        verifyNoMoreInteractions(likeService);
+    }
+
+    @Test
+    public void test_getLikeByTitle_whenFindByTitleIsNotPresent() {
+
+        String title = "";
+
+        when(likeRepository.findByTitle(title)).thenReturn(null);
+
+        Like like = likeService.getLikeByTitle(title).get();
+
+        assertThat(like).isEqualTo(Optional.empty());
+
+        verify(likeRepository).findByTitle(title);
+        verifyNoMoreInteractions(likeService);
+    }
+
+    @Test
+    public void test_getLikeByTitle_whenFindByTitleIsPresent() {
+
+        String title = "What's new with Java 11";
+
+        Like like = new Like("What's new with Java 11", "Development");
+
+        when(likeRepository.findByTitle(title)).thenReturn(like);
+
+        Like expectedLike = likeService.getLikeByTitle(title).get();
+
+        assertThat(like).isEqualTo(expectedLike);
+
+        verify(likeRepository).findByTitle(title);
         verifyNoMoreInteractions(likeService);
     }
 }

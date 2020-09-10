@@ -89,7 +89,7 @@ public class UserController {
 
         User user = fieldSetter.setFieldsWhenCreate(userRequest, _user);
 
-        userService.save(user);
+        userService.addUser(user);
 
         return ResponseEntity.ok(user);
     }
@@ -97,7 +97,7 @@ public class UserController {
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUserById(@PathVariable int id) {
 
-        Optional<User> user = userService.findById(id);
+        Optional<User> user = userService.getUserById(id);
 
         if (user.isEmpty()) {
             return ResponseEntity.ok(new ErrorResponse(

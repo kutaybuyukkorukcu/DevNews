@@ -36,16 +36,13 @@ public class UserService {
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
-    @Autowired
-    private Environment environment;
-
     public static final String TOKEN_INVALID = "invalidToken";
     public static final String TOKEN_EXPIRED = "expired";
     public static final String TOKEN_VALID = "valid";
 
-    public void save(User user) {
+    public void addUser(User user) {
 
-        if (userRepository.findByUsername(user.getUsername()) == null) {
+        if (userRepository.findByUsername(user.getUsername()) != null) {
             throw new UserExistsException("There is an account with that username : " + user.getUsername());
         }
 
@@ -102,7 +99,7 @@ public class UserService {
         return Optional.ofNullable(passwordResetTokenRepository.findByToken(token).getUser());
     }
 
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> getUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
 
         return Optional.ofNullable(user);
@@ -139,13 +136,13 @@ public class UserService {
         return TOKEN_VALID;
     }
 
-    public Optional<User> findById(int id) {
+    public Optional<User> getUserById(int id) {
         User user = userRepository.findById(id);
 
         return Optional.ofNullable(user);
     }
 
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
 
         return Optional.ofNullable(user);
