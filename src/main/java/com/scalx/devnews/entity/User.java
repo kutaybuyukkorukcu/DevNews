@@ -42,6 +42,13 @@ public class User extends BaseEntity {
             )
     private Collection<Role> roles;
 
+    public User(String username, String password, String email) {
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     public User(String username, String password, String email,
                 boolean enabled, boolean tokenExpired) {
 

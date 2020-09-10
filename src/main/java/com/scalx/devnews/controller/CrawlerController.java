@@ -59,11 +59,12 @@ public class CrawlerController {
             ));
         }
 
+        // TODO : Move the function below from controller layer to service layer
         for (String articleLink : articleLinkList) {
             Article article = null;
 
             try {
-                article = crawlerService.crawlArticleLinkIntoArticle(articleLink);
+                article = crawlerService.crawlArticleLinkIntoArticle(articleLink).get();
             } catch (IOException e) {
                 e.printStackTrace();
 //            throw new CrawlFailed or given article link is broken();

@@ -55,11 +55,11 @@ public class UrlService {
         return articleLinkList;
     }
 
-    public Optional<Url> articleLinkToUrl(String articleLink) {
+    public Url articleLinkToUrl(String articleLink) {
         Url url = new Url();
 
         url.setArticleLink(articleLink);
 
-        return Optional.ofNullable(url);
+        return url;
     }
 }
