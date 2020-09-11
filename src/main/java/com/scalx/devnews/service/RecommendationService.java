@@ -52,7 +52,7 @@ public class RecommendationService {
     // Belli bir formata soktuktan sonra hem elimde bulunan makale verilerini hem de kisinin begendiklerini artik recommendation icin yollayabilirim.
     public JsonNode getRecommendation(String title) {
 
-            RestTemplate restTemplate = new RestTemplate();
+            RestTemplate restTemplate =recommendationIntoRecommendationList new RestTemplate();
             String resourceUrl = "http://localhost:5000/api/recommend";
 
             ResponseEntity<JsonNode> response = restTemplate.getForEntity(resourceUrl, JsonNode.class);
@@ -92,7 +92,6 @@ public class RecommendationService {
 
         // Set kontrolu yapilsin. Ayni articleID'ye sahipler alinmasin.
         return recommendationList.stream()
-//                .sorted(comparator)
                 .limit(5)
                 .collect(Collectors.toList());
     }

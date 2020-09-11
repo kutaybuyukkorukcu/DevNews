@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -93,31 +94,90 @@ public class UserServiceTest {
     @Test
     public void test_getUserByUsername_whenFindByUsernameIsNotPresent() {
 
+        User user = new User("Josh", "JoshAndHisPassword", "josh@email.com");
 
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(null);
+
+        User expectedUser = userService.getUserByUsername(user.getUsername()).get();
+
+        assertThat(expectedUser).isEqualTo(Optional.empty());
+
+        verify(userRepository).findByUsername(user.getUsername());
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void test_getUserByUsername_whenFindByUsernameIsPresent() {
 
+        User user = new User("Josh", "JoshAndHisPassword", "josh@email.com");
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+
+        User expectedUser = userService.getUserByUsername(user.getUsername()).get();
+
+        assertThat(user).isEqualTo(expectedUser);
+
+        verify(userRepository).findByUsername(user.getUsername());
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void test_getUserById_whenFindByIdIsNotPresent() {
 
+        User user = new User("Josh", "JoshAndHisPassword", "josh@email.com");
+
+        when(userRepository.findById(user.getId())).thenReturn(null);
+
+        User expectedUser = userService.getUserById(user.getId()).get();
+
+        assertThat(expectedUser).isEqualTo(Optional.empty());
+
+        verify(userRepository).findById(user.getId());
+        verifyNoMoreInteractions();
     }
 
     @Test
     public void test_getUserById_whenFindByIdIsPresent() {
 
+        User user = new User("Josh", "JoshAndHisPassword", "josh@email.com");
+
+        when(userRepository.findById(user.getId())).thenReturn(user);
+
+        User expectedUser = userService.getUserById(user.getId()).get();
+
+        assertThat(user).isEqualTo(expectedUser);
+
+        verify(userRepository).findById(user.getId());
+        verifyNoMoreInteractions();
     }
 
     @Test
     public void test_getUserByEmail_whenFindByEmailIsNotPresent() {
 
+        User user = new User("Josh", "JoshAndHisPassword", "josh@email.com");
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(null);
+
+        User expectedUser = userService.getUserById(user.getId()).get();
+
+        assertThat(expectedUser).isEqualTo(Optional.empty());
+
+        verify(userRepository).findByEmail(user.getEmail());
+        verifyNoMoreInteractions();
     }
 
     @Test
     public void test_getUserByEmail_whenFindByEmailIsPresent() {
 
+        User user = new User("Josh", "JoshAndHisPassword", "josh@email.com");
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+
+        User expectedUser = userService.getUserById(user.getId()).get();
+
+        assertThat(expectedUser).isEqualTo(Optional.empty());
+
+        verify(userRepository).findByEmail(user.getEmail());
+        verifyNoMoreInteractions();
     }
 }
