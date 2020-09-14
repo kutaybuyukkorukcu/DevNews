@@ -6,14 +6,13 @@ import com.scalx.devnews.entity.Like;
 import com.scalx.devnews.entity.Recommendation;
 import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.repository.ArticleRepository;
-import com.scalx.devnews.utils.CacheLists;
+import com.scalx.devnews.helper.CacheLists;
 import com.scalx.devnews.utils.MainTopics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -52,7 +51,7 @@ public class RecommendationService {
     // Belli bir formata soktuktan sonra hem elimde bulunan makale verilerini hem de kisinin begendiklerini artik recommendation icin yollayabilirim.
     public JsonNode getRecommendation(String title) {
 
-            RestTemplate restTemplate =recommendationIntoRecommendationList new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
             String resourceUrl = "http://localhost:5000/api/recommend";
 
             ResponseEntity<JsonNode> response = restTemplate.getForEntity(resourceUrl, JsonNode.class);

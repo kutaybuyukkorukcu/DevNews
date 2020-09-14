@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,10 +53,9 @@ public class ArticleController {
 
         if (articleList.isEmpty()) {
             return ResponseEntity.ok(new ErrorResponse(
-               StatusResponse.NOT_FOUND.getStatusCode(),
-               StatusResponse.NOT_FOUND,
-               StatusResponse.NOT_FOUND.getMessage(),
-               LocalDateTime.now()
+                StatusResponse.NOT_FOUND.getStatusCode(),
+                StatusResponse.NOT_FOUND.getMessage(),
+                Date.valueOf(LocalDate.now())
             ));
         }
 
@@ -63,9 +63,8 @@ public class ArticleController {
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now(),
+                Date.valueOf(LocalDate.now()),
                 jsonNode
         ));
     }
@@ -73,17 +72,15 @@ public class ArticleController {
     @RequestMapping(value = "/articles", method = RequestMethod.POST)
     public ResponseEntity<?> postArticle(@RequestBody ArticleRequest articleRequest) {
 
-        Article _article = modelMapper.map(articleRequest, Article.class);
-
-        Article article = fieldSetter.setFieldsWhenCreate(articleRequest, _article);
+        Article article = fieldSetter.setFieldsWhenCreate(articleRequest,
+                modelMapper.map(articleRequest, Article.class));
 
         articleService.addArticle(article);
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now()
+                Date.valueOf(LocalDate.now())
         ));
     }
 }

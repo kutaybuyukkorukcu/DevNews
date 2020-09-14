@@ -25,6 +25,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -80,14 +82,13 @@ public class UserController {
     public ResponseEntity<?> signup(@RequestBody UserRequest userRequest) {
 
         // TODO : Client sends encoded password to API. Using PasswordEncoder till Integration tests.
-
-        User _user = modelMapper.map(userRequest, User.class);
-
         // TODO : Remove it after developing client
-        _user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
-//        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
-        User user = fieldSetter.setFieldsWhenCreate(userRequest, _user);
+        User user = fieldSetter.setFieldsWhenCreate(userRequest,
+                modelMapper.map(userRequest, User.class));
+
+        user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
+//        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
         userService.addUser(user);
 
@@ -102,9 +103,8 @@ public class UserController {
         if (user.isEmpty()) {
             return ResponseEntity.ok(new ErrorResponse(
                     StatusResponse.NOT_FOUND.getStatusCode(),
-                    StatusResponse.NOT_FOUND,
                     StatusResponse.NOT_FOUND.getMessage(),
-                    LocalDateTime.now()
+                    Date.valueOf(LocalDate.now())
             ));
         }
 
@@ -112,9 +112,8 @@ public class UserController {
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now(),
+                Date.valueOf(LocalDate.now()),
                 jsonNode
         ));
     }

@@ -27,16 +27,6 @@ public class CrawlerServiceTest {
     CrawlerService crawlerService;
 
     @Test
-    public void test_crawlArticleLinkIntoArticle_whenArticleLinkIsNotPresent() {
-
-    }
-
-    @Test
-    public void test_crawlArticleLinkIntoArticle_whenArticleLinkIsPresent() {
-
-    }
-
-    @Test
     public void test_articleLinkToLike_whenArticleLinkIsNotPresent() {
 
         String articleLink = "";

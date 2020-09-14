@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,9 +48,8 @@ public class LikeController {
         if (likeList.isEmpty()) {
             return ResponseEntity.ok(new ErrorResponse(
                     StatusResponse.NOT_FOUND.getStatusCode(),
-                    StatusResponse.NOT_FOUND,
                     StatusResponse.NOT_FOUND.getMessage(),
-                    LocalDateTime.now()
+                    Date.valueOf(LocalDate.now())
             ));
         }
 
@@ -56,9 +57,8 @@ public class LikeController {
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now(),
+                Date.valueOf(LocalDate.now()),
                 jsonNode
         ));
     }
@@ -66,18 +66,18 @@ public class LikeController {
     @RequestMapping(value = "/likes", method = RequestMethod.POST)
     public ResponseEntity<?> postLike(@RequestBody LikeRequest likeRequest) {
 
-        Like _like = modelMapper.map(likeRequest, Like.class);
-
-        Like like = fieldSetter.setFieldsWhenCreate(likeRequest, _like);
+        Like like = fieldSetter.setFieldsWhenCreate(likeRequest,
+                modelMapper.map(likeRequest, Like.class));
 
         likeService.addLike(like);
 
-        return ResponseEntity.ok(new StandardResponse(
+        var response = new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now()
-        ));
+                Date.valueOf(LocalDate.now())
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/likes/{title}", method = RequestMethod.GET)
@@ -88,9 +88,8 @@ public class LikeController {
         if (like.isEmpty()) {
             return ResponseEntity.ok(new ErrorResponse(
                     StatusResponse.NOT_FOUND.getStatusCode(),
-                    StatusResponse.NOT_FOUND,
                     StatusResponse.NOT_FOUND.getMessage(),
-                    LocalDateTime.now()
+                    Date.valueOf(LocalDate.now())
             ));
         }
 
@@ -98,9 +97,8 @@ public class LikeController {
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now(),
+                Date.valueOf(LocalDate.now()),
                 jsonNode
         ));
     }

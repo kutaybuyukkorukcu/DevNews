@@ -4,31 +4,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 public class ErrorResponse {
 
     private int statusCode;
-    private LocalDateTime timestamp;
-    private StatusResponse status;
+    private Date date;
     private String message;
 
-    public ErrorResponse(String message, LocalDateTime timestamp) {
+    public ErrorResponse(String message, Date date) {
         this.message = message;
-        this.timestamp = timestamp;
+        this.date = date;
     }
 
-    public ErrorResponse(int statusCode, StatusResponse status, LocalDateTime timestamp) {
+    public ErrorResponse(int statusCode, Date date) {
         this.statusCode = statusCode;
-        this.status = status;
-        this.timestamp = timestamp;
+        this.date = date;
     }
 
-    public ErrorResponse(int statusCode, StatusResponse status, String message, LocalDateTime timestamp) {
+    public ErrorResponse(int statusCode, String message, Date date) {
         this.statusCode = statusCode;
-        this.status = status;
         this.message = message;
-        this.timestamp = timestamp;
+        this.date = date;
     }
 }

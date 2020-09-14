@@ -5,40 +5,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 public class StandardResponse {
 
     private int statusCode;
-    private StatusResponse status;
     private String message;
-    private LocalDateTime timestamp;
+    private Date date;
     private JsonNode data;
 
-    public StandardResponse(String message, LocalDateTime timestamp) {
+    public StandardResponse(String message, Date date) {
         this.message = message;
-        this.timestamp = timestamp;
+        this.date = date;
     }
 
-    public StandardResponse(int statusCode, StatusResponse status, LocalDateTime timestamp) {
+    public StandardResponse(int statusCode, Date date) {
         this.statusCode = statusCode;
-        this.status = status;
-        this.timestamp = timestamp;
+        this.date = date;
     }
 
-    public StandardResponse(int statusCode, StatusResponse status, String message, LocalDateTime timestamp) {
+    public StandardResponse(int statusCode, String message, Date date) {
         this.statusCode = statusCode;
-        this.status = status;
         this.message = message;
-        this.timestamp = timestamp;
+        this.date = date;
     }
 
-    public StandardResponse(int statusCode, StatusResponse status, String message, LocalDateTime timestamp, JsonNode data) {
+    public StandardResponse(int statusCode, String message, Date date, JsonNode data) {
         this.statusCode = statusCode;
-        this.status = status;
         this.message = message;
-        this.timestamp = timestamp;
+        this.date = date;
         this.data = data;
     }
 }
