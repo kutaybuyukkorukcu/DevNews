@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -52,9 +50,8 @@ public class UrlController {
         if (articleLinkList.isEmpty()) {
             return ResponseEntity.ok(new ErrorResponse(
                     StatusResponse.NOT_FOUND.getStatusCode(),
-                    StatusResponse.NOT_FOUND,
                     StatusResponse.NOT_FOUND.getMessage(),
-                    LocalDateTime.now()
+                    Date.valueOf(LocalDate.now())
             ));
         }
 
@@ -62,9 +59,8 @@ public class UrlController {
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now(),
+                Date.valueOf(LocalDate.now()),
                 jsonNode
         ));
     }
@@ -77,9 +73,8 @@ public class UrlController {
         if (urlList.isEmpty()) {
             return ResponseEntity.ok(new ErrorResponse(
                     StatusResponse.NOT_FOUND.getStatusCode(),
-                    StatusResponse.NOT_FOUND,
                     StatusResponse.NOT_FOUND.getMessage(),
-                    LocalDateTime.now()
+                    Date.valueOf(LocalDate.now())
             ));
         }
 
@@ -87,9 +82,8 @@ public class UrlController {
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now(),
+                Date.valueOf(LocalDate.now()),
                 jsonNode
         ));
     }
@@ -97,17 +91,15 @@ public class UrlController {
     @RequestMapping(value = "/urls", method = RequestMethod.POST)
     public ResponseEntity<?> postUrl(@RequestBody UrlRequest urlRequest) {
 
-        Url _url = modelMapper.map(urlRequest, Url.class);
-
-        Url url = fieldSetter.setFieldsWhenCreate(urlRequest, _url);
+        Url url = fieldSetter.setFieldsWhenCreate(urlRequest,
+                modelMapper.map(urlRequest, Url.class));
 
         urlService.addUrl(url);
 
         return ResponseEntity.ok(new StandardResponse(
                 StatusResponse.SUCCESS.getStatusCode(),
-                StatusResponse.SUCCESS,
                 StatusResponse.SUCCESS.getMessage(),
-                LocalDateTime.now()
+                Date.valueOf(LocalDate.now())
         ));
     }
 }

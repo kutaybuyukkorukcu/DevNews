@@ -18,6 +18,4 @@ public interface LikeRepository extends JpaRepository<Like, Integer> {
     public List<Like> findAllByActive();
 
     public Like findByTitle(String title);
-
-    public Like findById(int id);
 }

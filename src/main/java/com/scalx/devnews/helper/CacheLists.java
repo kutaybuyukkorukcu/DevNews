@@ -1,4 +1,4 @@
-package com.scalx.devnews.utils;
+package com.scalx.devnews.helper;
 
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Recommendation;

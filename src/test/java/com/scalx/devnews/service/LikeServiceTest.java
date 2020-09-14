@@ -37,7 +37,7 @@ public class LikeServiceTest {
     LikeService likeService;
 
     @Test
-    public void test_addUrl_whenUrlIsNotPresent() {
+    public void test_addLike_whenLikeIsNotPresent() {
 
         doThrow(new NullPointerException())
                 .when(likeService).addLike(null);
@@ -52,7 +52,7 @@ public class LikeServiceTest {
     }
 
     @Test
-    public void test_addUrl_whenUrlIsPresent() {
+    public void test_addLike_whenLikeIsPresent() {
 
         Like like = new Like("What's new with Java 11", "Development");
 
@@ -63,13 +63,36 @@ public class LikeServiceTest {
     }
 
     @Test
-    public void test_getUrls_whenFindAllIsNotPresent() {
+    public void test_getLikes_whenFindAllIsNotPresent() {
 
+        when(likeRepository.findAll()).thenReturn(null);
+
+        List<Like> expectedLikeList = likeService.getLikes();
+
+        assertThat(new ArrayList<Like>()).isEqualTo(expectedLikeList);
+
+        verify(likeRepository).findAll();
+        verifyNoMoreInteractions(likeService);
     }
 
     @Test
-    public void test_getUrls_whenFindAllIsPresent() {
+    public void test_getLikes_whenFindAllIsPresent() {
 
+        List<Like> likeList = new ArrayList<>();
+        likeList.add(new Like("What's new with Java 11", "Development"));
+        likeList.add(new Like("Comprehensive guide to unit testing", "Development"));
+
+        likeList.get(0).setActive(true);
+        likeList.get(1).setActive(false);
+
+        when(likeRepository.findAll()).thenReturn(likeList);
+
+        List<Like> expectedLikeList = likeService.getLikes();
+
+        assertThat(likeList).isEqualTo(expectedLikeList);
+
+        verify(likeRepository).findAllByActive();
+        verifyNoMoreInteractions(likeService);
     }
 
     @Test
@@ -92,6 +115,9 @@ public class LikeServiceTest {
         List<Like> likeList = new ArrayList<>();
         likeList.add(new Like("What's new with Java 11", "Development"));
         likeList.add(new Like("Comprehensive guide to unit testing", "Development"));
+
+        likeList.get(0).setActive(true);
+        likeList.get(1).setActive(true);
 
         when(likeRepository.findAllByActive()).thenReturn(likeList);
 
@@ -189,4 +215,6 @@ public class LikeServiceTest {
         verify(likeRepository).findByTitle(title);
         verifyNoMoreInteractions(likeService);
     }
+
+
 }
