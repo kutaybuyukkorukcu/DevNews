@@ -122,18 +122,17 @@ public class LikeControllerTest {
         verifyNoMoreInteractions(likeController);
     }
 
-//    @Test
-//    public void test_postLike_whenEntityIsNotPresent() throws Exception {
-//
-//
-//    }
+    @Test
+    public void test_postLike_whenEntityIsNotPresent() throws Exception {
+
+
+    }
 
     @Test
     public void test_postLike_whenEntityIsPresent() throws Exception {
 
         LikeRequest likeRequest = new LikeRequest("Scalx", "What's new with Java 11",
                 "Development");
-
 
         var response = mockMvc.perform(post("/api/likes")
                 .contentType(MediaType.APPLICATION_JSON)
