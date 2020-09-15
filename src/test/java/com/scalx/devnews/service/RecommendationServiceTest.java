@@ -17,9 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -76,6 +78,11 @@ public class RecommendationServiceTest {
         doThrow(new ResourceNotFoundException())
                 .when(recommendationService).recommendationListToArticleList(recommendationList, recommendedArticles);
 
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> {
+                    recommendationService.recommendationListToArticleList(recommendationList, recommendedArticles);
+                });
+
         verify(articleRepository).findById(articleId);
         verifyNoMoreInteractions(recommendationService);
     }
@@ -109,12 +116,16 @@ public class RecommendationServiceTest {
     // getRecommendations() - likeService bos donsun
     @Test
     public void test_getRecommendations_whenGetLikesByActiveIsNotPresent() {
-        List<Like> likeList = new ArrayList();
 
-        when(likeService.getLikesByActive()).thenReturn(likeList);
+        when(likeService.getLikesByActive()).thenReturn(Collections.emptyList());
 
         doThrow(new ResourceNotFoundException())
                 .when(recommendationService).getRecommendations();
+
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> {
+                    recommendationService.getRecommendations();
+                });
 
         verify(likeService).getLikesByActive();
         verifyNoMoreInteractions(recommendationService);
@@ -135,6 +146,11 @@ public class RecommendationServiceTest {
 
         doThrow(new ResourceNotFoundException())
                 .when(recommendationService).getRecommendations();
+
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> {
+                    recommendationService.getRecommendations();
+                });
 
         verify(likeService).getLikesByActive();
         verify(recommendationService).getRecommendation(likeList.get(0).getTitle());

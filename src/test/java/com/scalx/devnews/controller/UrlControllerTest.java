@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = UrlController.class)
 @AutoConfigureMockMvc
-@AutoConfigureJsonTesters
 public class UrlControllerTest {
 
     @Mock

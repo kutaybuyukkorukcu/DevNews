@@ -34,14 +34,10 @@ public class ArticleServiceTest {
         doThrow(new NullPointerException())
                 .when(articleService).addArticle(null);
 
-//        assertThrows(NullPointerException.class, () -> {
-//           articleService.addArticle(null);
-//        });
-
         assertThatExceptionOfType(NullPointerException.class)
-            .isThrownBy(() -> {
-                articleService.addArticle(null);
-            });
+                .isThrownBy(() -> {
+                    articleService.addArticle(null);
+                });
 
         verify(articleRepository).save(null);
         verifyNoMoreInteractions(articleService);

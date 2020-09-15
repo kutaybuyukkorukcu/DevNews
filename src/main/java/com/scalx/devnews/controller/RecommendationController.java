@@ -49,19 +49,10 @@ public class RecommendationController {
         CacheLists.recommendedArticles.clear();
 
         // TODO : based on user ID, update user's old liked articles isNew value from 1 to 0
-        try {
-            likeService.addLikedArticlesIntoLikeCollection();
-            recommendationService.getRecommendations();
-            recommendationService.topRecommendationsIntoArticleList();
 
-        } catch (RecommendationHttpException | ResourceNotFoundException e) {
-
-            return ResponseEntity.ok(new ErrorResponse(
-                    StatusResponse.NOT_FOUND.getStatusCode(),
-                    StatusResponse.NOT_FOUND.getMessage(),
-                    Date.valueOf(LocalDate.now())
-            ));
-        }
+        likeService.addLikedArticlesIntoLikeCollection();
+        recommendationService.getRecommendations();
+        recommendationService.topRecommendationsIntoArticleList();
 
         JsonNode jsonNode = objectMapper.convertValue(CacheLists.recommendedArticles, JsonNode.class);
 

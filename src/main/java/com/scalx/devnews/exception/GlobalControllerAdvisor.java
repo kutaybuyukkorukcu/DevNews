@@ -7,6 +7,8 @@ import com.sun.mail.iap.Response;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -66,6 +68,18 @@ public class GlobalControllerAdvisor extends ResponseEntityExceptionHandler {
         return ResponseEntity.ok(errorResponse);
     }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<Object> handleUsernameNotFoundException(
+            UsernameNotFoundException ex, WebRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
+        errorResponse.setMessage("Username not found");
+
+        return ResponseEntity.ok(errorResponse);
+    }
+
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRunTimeException(
             RuntimeException ex, WebRequest request) {
@@ -73,6 +87,17 @@ public class GlobalControllerAdvisor extends ResponseEntityExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setDate(Date.valueOf(LocalDate.now()));
         errorResponse.setMessage("Runtime exception check");
+
+        return ResponseEntity.ok(errorResponse);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(
+            BadCredentialsException ex, WebRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
+        errorResponse.setMessage("Incorrect username or password");
 
         return ResponseEntity.ok(errorResponse);
     }

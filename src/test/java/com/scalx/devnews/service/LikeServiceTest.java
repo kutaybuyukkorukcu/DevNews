@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -139,6 +140,12 @@ public class LikeServiceTest {
         doThrow(new ResourceNotFoundException())
                 .when(likeService).addLikedArticlesIntoLikeCollection();
 
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> {
+                    likeService.addLikedArticlesIntoLikeCollection();
+
+                });
+
         verify(urlService).getArticleLinksAsList();
         verifyNoMoreInteractions(likeService);
     }
@@ -159,6 +166,12 @@ public class LikeServiceTest {
         doThrow(new ResourceNotFoundException())
                 .when(likeService).addLikedArticlesIntoLikeCollection();
 
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> {
+                    likeService.addLikedArticlesIntoLikeCollection();
+
+                });
+        
         verify(urlService).getArticleLinksAsList();
         verify(crawlerService).articleLinkToLike(articleLink);
         verifyNoMoreInteractions(likeService);
