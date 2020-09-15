@@ -16,11 +16,6 @@ public class DevnewsApplication {
 		SpringApplication.run(DevnewsApplication.class, args);
 	}
 
-	// TODO : If @Bean constructor doesn't work, get back to using @PostConstruct
-//	@PostConstruct
-//	public void initializeCacheLists() {
-//		CacheListsConfig.generateLists();
-//	}
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();

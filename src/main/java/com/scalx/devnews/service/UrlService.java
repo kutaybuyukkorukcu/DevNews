@@ -19,29 +19,23 @@ public class UrlService {
     @Autowired
     private UrlRepository urlRepository;
 
-    public void save(Url url) {
+    public void addUrl(Url url) {
         urlRepository.save(url);
     }
 
     public List<Url> getUrls() {
         List<Url> urlList = urlRepository.findAll();
 
-        if (urlList == null) {
-            return Collections.emptyList();
-        }
-
-        return urlList;
+        return urlList != null ? urlList
+                : Collections.emptyList();
     }
 
     public List<Url> getUrlsByActive() {
 
         List<Url> urlList = urlRepository.findAllByActive();
 
-        if (urlList == null) {
-            return Collections.emptyList();
-        }
-
-        return urlList;
+        return urlList != null ? urlList
+                : Collections.emptyList();
     }
 
     public List<String> getArticleLinksAsList() {
@@ -61,12 +55,11 @@ public class UrlService {
         return articleLinkList;
     }
 
-    public Optional<Url> articleLinkToUrl(String articleLink) {
+    public Url articleLinkToUrl(String articleLink) {
         Url url = new Url();
 
         url.setArticleLink(articleLink);
-        url.setActive(true);
 
-        return Optional.ofNullable(url);
+        return url;
     }
 }

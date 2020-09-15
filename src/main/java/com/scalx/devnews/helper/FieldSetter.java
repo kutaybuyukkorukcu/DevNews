@@ -38,4 +38,16 @@ public class FieldSetter<DTO extends BaseRequest, DAO extends BaseEntity> {
 
         return entity;
     }
+
+    public DAO setFieldsWhenCreateWithGivenId(DTO request, DAO entity, int id) {
+
+        entity.setId(id);
+        entity.setActive(true);
+        entity.setCreatedBy(request.getAccountName());
+        entity.setLastModifiedBy(request.getAccountName());
+        entity.setCreatedDate(java.sql.Date.valueOf(LocalDate.now()));
+        entity.setLastModifiedDate(java.sql.Date.valueOf(LocalDate.now()));
+
+        return entity;
+    }
 }

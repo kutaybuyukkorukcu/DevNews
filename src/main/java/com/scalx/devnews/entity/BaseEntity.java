@@ -16,7 +16,7 @@ public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "is_active")
     private boolean isActive;
@@ -36,7 +36,7 @@ public class BaseEntity implements Serializable {
     private String lastModifiedBy;
 
     public boolean isNew() {
-        return this.id == null;
+        return this.isActive == false;
     }
 
     // If the LocalDateTime creates a conflict in entities refactor to (hypothetically) Optional.of(this.createdDate)

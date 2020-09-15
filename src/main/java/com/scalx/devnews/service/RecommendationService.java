@@ -6,14 +6,13 @@ import com.scalx.devnews.entity.Like;
 import com.scalx.devnews.entity.Recommendation;
 import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.repository.ArticleRepository;
-import com.scalx.devnews.utils.CacheLists;
+import com.scalx.devnews.helper.CacheLists;
 import com.scalx.devnews.utils.MainTopics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,11 +33,6 @@ public class RecommendationService {
     @Autowired
     private ArticleRepository articleRepository;
 
-//    @PostConstruct
-//    private void postConstruct() {
-//        CacheLists.generateLists();
-//    }
-
     public void recommendationIntoRecommendationList(JsonNode jsonNode, List<Recommendation> recommendationList) {
 
         Iterator<JsonNode> iter = jsonNode.path("list").iterator();
@@ -47,7 +41,7 @@ public class RecommendationService {
             Recommendation recommendation = new Recommendation();
             JsonNode arr = iter.next();
             // Because recom.py subtracts 1 from articleID
-            recommendation.setArticleId(arr.path(0).asLong() + 1);
+            recommendation.setArticleId(arr.path(0).asInt() + 1);
             recommendation.setSimilarityScore(arr.path(1).asDouble());
             recommendationList.add(recommendation);
         }
@@ -64,10 +58,12 @@ public class RecommendationService {
 
 
             List<JsonNode> jsonNodeList = response.getBody().findValues("title");
+
             jsonNodeList
                     .iterator()
                     .next()
                     .equals(title);
+
             Iterator<JsonNode> iter = jsonNodeList.iterator();
 
             JsonNode jsonNode = null;
@@ -87,14 +83,7 @@ public class RecommendationService {
     }
 
     public List<Recommendation> getTopRecommendationsFromList(List<Recommendation> recommendationList) {
-        //        Comparator<Recommendation> comparator = new Comparator<Recommendation>() {
-//            @Override
-//            public int compare(Recommendation i1, Recommendation i2) {
-//                int a1 = (int) Math.round(i1.getSimilarityScore());
-//                int a2 = (int) Math.round(i2.getSimilarityScore());
-//                return a2 - a1;
-//            }
-//        };
+
         // TODO : should we check if static list recommendations is present or not ? Dont forget to implement tests
 
         // TODO : test edilecek ofc. Ondan dolayi eski implementationu silmiyorum
@@ -102,7 +91,6 @@ public class RecommendationService {
 
         // Set kontrolu yapilsin. Ayni articleID'ye sahipler alinmasin.
         return recommendationList.stream()
-//                .sorted(comparator)
                 .limit(5)
                 .collect(Collectors.toList());
     }
@@ -112,7 +100,7 @@ public class RecommendationService {
         Iterator<Recommendation> iter = recommendationList.iterator();
 
         while(iter.hasNext()) {
-            long articleID = iter.next().getArticleId();
+            int articleID = iter.next().getArticleId();
 
             Article article = articleRepository.findById(articleID);
 
@@ -127,14 +115,14 @@ public class RecommendationService {
 
     public void getRecommendations() {
 
-        List<Like> likes = likeService.getLikesByActive();
+        List<Like> likeList = likeService.getLikesByActive();
 
-        if (likes.isEmpty()) {
+        if (likeList.isEmpty()) {
             throw new ResourceNotFoundException();
         }
 
         // TODO : exception handling if likes empty, or something else
-        Iterator<Like> iter = likes.iterator();
+        Iterator<Like> iter = likeList.iterator();
 
         while (iter.hasNext()) {
             Like like = iter.next();
@@ -177,8 +165,6 @@ public class RecommendationService {
         recommendationListToArticleList(CacheLists.ai, CacheLists.recommendedArticles);
         recommendationListToArticleList(CacheLists.culture, CacheLists.recommendedArticles);
         recommendationListToArticleList(CacheLists.devops, CacheLists.recommendedArticles);
-
-        // TODO : mailService implementation (check legacy code)
 
         // TODO : recommendedArticles.toString() -> mail formatina donusturecek bir fonksiyon yaz.
     }

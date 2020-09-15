@@ -7,30 +7,32 @@ import com.sun.mail.iap.Response;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@ControllerAdvice
-public class ControllerAdvisor extends ResponseEntityExceptionHandler {
+@RestControllerAdvice
+public class GlobalControllerAdvisor extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RecommendationHttpException.class)
     public ResponseEntity<Object> handleRecommendationHttpException(
             RecommendationHttpException ex, WebRequest request) {
 
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
         errorResponse.setMessage("Article expired. --- The site owner changed or deleted the article");
-//        Map<String, Object> body = new LinkedHashMap<>();
-//        body.put("timestamp", LocalDateTime.now());
-//        body.put("message", "Article expired. --- The site owner changed or deleted the article");
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok(errorResponse);
     }
 
     @ExceptionHandler(InvalidJwtAuthenticationException.class)
@@ -38,10 +40,10 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
             InvalidJwtAuthenticationException ex, WebRequest request) {
 
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setTimestamp(LocalDateTime.now());
-        errorResponse.setMessage("Account not authorized");
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
+        errorResponse.setMessage("Account not authorized - jwt token expired");
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok(errorResponse);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -49,10 +51,10 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
             ResourceNotFoundException ex, WebRequest request) {
 
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
         errorResponse.setMessage("Resource not found");
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(errorResponse);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -60,20 +62,43 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
             UserNotFoundException ex, WebRequest request) {
 
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
         errorResponse.setMessage("User not found");
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(errorResponse);
     }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<Object> handleUsernameNotFoundException(
+            UsernameNotFoundException ex, WebRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
+        errorResponse.setMessage("Username not found");
+
+        return ResponseEntity.ok(errorResponse);
+    }
+
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRunTimeException(
             RuntimeException ex, WebRequest request) {
 
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
         errorResponse.setMessage("Runtime exception check");
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(errorResponse);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(
+            BadCredentialsException ex, WebRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setDate(Date.valueOf(LocalDate.now()));
+        errorResponse.setMessage("Incorrect username or password");
+
+        return ResponseEntity.ok(errorResponse);
     }
 }

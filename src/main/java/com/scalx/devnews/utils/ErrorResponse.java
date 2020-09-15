@@ -1,36 +1,32 @@
 package com.scalx.devnews.utils;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class ErrorResponse {
 
-    private LocalDateTime timestamp;
-    private StatusResponse status;
     private int statusCode;
+    private Date date;
     private String message;
 
-    public ErrorResponse() {
-
-    }
-
-    public ErrorResponse(LocalDateTime timestamp, String message) {
-        this.timestamp = timestamp;
+    public ErrorResponse(String message, Date date) {
         this.message = message;
+        this.date = date;
     }
 
-    public ErrorResponse(LocalDateTime timestamp, StatusResponse status, int statusCode) {
-        this.timestamp = timestamp;
-        this.status = status;
+    public ErrorResponse(int statusCode, Date date) {
         this.statusCode = statusCode;
+        this.date = date;
     }
 
-    public ErrorResponse(LocalDateTime timestamp, StatusResponse status, int statusCode, String message) {
-        this.timestamp = timestamp;
-        this.status = status;
+    public ErrorResponse(int statusCode, String message, Date date) {
         this.statusCode = statusCode;
         this.message = message;
+        this.date = date;
     }
 }

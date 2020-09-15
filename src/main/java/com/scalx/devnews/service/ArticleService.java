@@ -16,28 +16,21 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public void save(Article article) {
-        articleRepository.saveAndFlush(article);
+    public void addArticle(Article article) {
+        articleRepository.save(article);
     }
 
     public List<Article> getArticles() {
 
         List<Article> articleList = articleRepository.findAll();
 
-        if (articleList == null) {
-            return Collections.emptyList();
-        }
-
-        return articleList;
+        return articleList != null ? articleList
+                : Collections.emptyList();
     }
 
     public boolean articleExist(Article article) {
-        Article returnedArticle = articleRepository.findByTitle(article.getTitle());
+        Article _article = articleRepository.findByTitle(article.getTitle());
 
-        if (returnedArticle == null) {
-            return false;
-        }
-
-        return true;
+        return _article != null;
     }
 }

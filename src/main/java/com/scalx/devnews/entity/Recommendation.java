@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class Recommendation extends BaseEntity {
 
     @Column(name = "article_id")
-    private Long articleId;
+    private int articleId;
 
     @Column(name = "similarity_score")
     private double similarityScore;

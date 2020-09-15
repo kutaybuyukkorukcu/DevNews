@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import java.util.Date;
 
 
 @Entity
@@ -23,4 +24,5 @@ public class Like extends BaseEntity {
     private String title;
     @Column(name = "main_topic")
     private String mainTopic;
+
 }

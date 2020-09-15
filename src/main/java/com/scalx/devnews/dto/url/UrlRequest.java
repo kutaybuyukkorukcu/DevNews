@@ -11,4 +11,9 @@ import lombok.NoArgsConstructor;
 public class UrlRequest extends BaseRequest {
 
     private String articleLink;
+
+    public UrlRequest(String accountName, String articleLink) {
+        super(accountName);
+        this.articleLink = articleLink;
+    }
 }

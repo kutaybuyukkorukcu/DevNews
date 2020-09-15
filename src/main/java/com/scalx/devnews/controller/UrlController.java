@@ -1,10 +1,17 @@
 package com.scalx.devnews.controller;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scalx.devnews.dto.url.UrlRequest;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Url;
+import com.scalx.devnews.helper.FieldSetter;
 import com.scalx.devnews.service.CrawlerService;
 import com.scalx.devnews.service.UrlService;
+import com.scalx.devnews.utils.ErrorResponse;
+import com.scalx.devnews.utils.StandardResponse;
+import com.scalx.devnews.utils.StatusResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -28,46 +34,36 @@ public class UrlController {
     private UrlService urlService;
 
     @Autowired
-    private CrawlerService crawlerService;
-
-    @Autowired
     ModelMapper modelMapper;
 
-    // TODO : We don't wanna return urls from file instead of database.
+    @Autowired
+    FieldSetter<UrlRequest, Url> fieldSetter;
 
-//    @RequestMapping(value = "/urls", method = RequestMethod.GET)
-//    public ResponseEntity<?> getUrls() {
-//
-//        List<String> articleLinkList;
-//
-//        try {
-//            articleLinkList = crawlerService.getArticleLinksFromFileAsList();
-//        } catch (IOException e) {
-//            return ResponseEntity.ok(new Article());
-//        }
-//
-//        if (articleLinkList.isEmpty()) {
-//            return ResponseEntity.ok(new Article());
-//        }
-//
-//        for (String articleLink : articleLinkList) {
-//            Optional<Url> url = urlService.articleLinkToUrl(articleLink);
-//
-//            if (!url.isPresent()) {
-//                return ResponseEntity.ok(new Article());
-//            }
-//
-//            urlService.save(url.get());
-//        }
-//
-//        List<String> allArticleLinkList = urlService.getArticleLinksAsList();
-//
-//        if (allArticleLinkList.isEmpty()) {
-//            return ResponseEntity.ok(new Article());
-//        }
-//
-//        return ResponseEntity.ok(new Article());
-//    }
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @RequestMapping(value = "/links", method = RequestMethod.GET)
+    public ResponseEntity<?> getArticleLinks() {
+
+        List<String> articleLinkList = urlService.getArticleLinksAsList();
+
+        if (articleLinkList.isEmpty()) {
+            return ResponseEntity.ok(new ErrorResponse(
+                    StatusResponse.NOT_FOUND.getStatusCode(),
+                    StatusResponse.NOT_FOUND.getMessage(),
+                    Date.valueOf(LocalDate.now())
+            ));
+        }
+
+        JsonNode jsonNode = objectMapper.convertValue(articleLinkList, JsonNode.class);
+
+        return ResponseEntity.ok(new StandardResponse(
+                StatusResponse.SUCCESS.getStatusCode(),
+                StatusResponse.SUCCESS.getMessage(),
+                Date.valueOf(LocalDate.now()),
+                jsonNode
+        ));
+    }
 
     @RequestMapping(value = "/urls", method = RequestMethod.GET)
     public ResponseEntity<?> getUrls() {
@@ -75,25 +71,35 @@ public class UrlController {
         List<Url> urlList = urlService.getUrlsByActive();
 
         if (urlList.isEmpty()) {
-            return ResponseEntity.ok(new Url());
+            return ResponseEntity.ok(new ErrorResponse(
+                    StatusResponse.NOT_FOUND.getStatusCode(),
+                    StatusResponse.NOT_FOUND.getMessage(),
+                    Date.valueOf(LocalDate.now())
+            ));
         }
 
-        return ResponseEntity.ok(urlList);
+        JsonNode jsonNode = objectMapper.convertValue(urlList, JsonNode.class);
+
+        return ResponseEntity.ok(new StandardResponse(
+                StatusResponse.SUCCESS.getStatusCode(),
+                StatusResponse.SUCCESS.getMessage(),
+                Date.valueOf(LocalDate.now()),
+                jsonNode
+        ));
     }
 
     @RequestMapping(value = "/urls", method = RequestMethod.POST)
-    public ResponseEntity<?> postUrls(@RequestBody UrlRequest urlRequest) {
+    public ResponseEntity<?> postUrl(@RequestBody UrlRequest urlRequest) {
 
-        Url url = modelMapper.map(urlRequest, Url.class);
+        Url url = fieldSetter.setFieldsWhenCreate(urlRequest,
+                modelMapper.map(urlRequest, Url.class));
 
-        url.setCreatedBy("laal");
-        url.setCreatedDate(java.sql.Date.valueOf(LocalDate.now()));
-        url.setActive(true);
-        url.setLastModifiedBy("laal");
-        url.setLastModifiedDate(java.sql.Date.valueOf(LocalDate.now()));
+        urlService.addUrl(url);
 
-        urlService.save(url);
-
-        return ResponseEntity.ok(url);
+        return ResponseEntity.ok(new StandardResponse(
+                StatusResponse.SUCCESS.getStatusCode(),
+                StatusResponse.SUCCESS.getMessage(),
+                Date.valueOf(LocalDate.now())
+        ));
     }
 }
