@@ -37,15 +37,6 @@ public class CrawlerController {
     @Autowired
     private ArticleService articleService;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @Autowired
-    ModelMapper modelMapper;
-
-    @Autowired
-    FieldSetter fieldSetter;
-
     @RequestMapping(value = "/crawl", method = RequestMethod.GET)
     public ResponseEntity<?> crawl() {
 
@@ -70,6 +61,13 @@ public class CrawlerController {
                 e.printStackTrace();
 //            throw new CrawlFailed or given article link is broken();
                 // TODO : return null girilen article'in DB tarafindan atanan ID'yi maybe??
+
+                // TODO : Mock response
+                return ResponseEntity.ok(new ErrorResponse(
+                        StatusResponse.NOT_FOUND.getStatusCode(),
+                        StatusResponse.NOT_FOUND.getMessage(),
+                        Date.valueOf(LocalDate.now())
+                ));
             }
 
             articleService.addArticle(article);
