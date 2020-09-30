@@ -31,9 +31,11 @@ public class ArticleServiceTest {
     @Test
     public void test_addArticle_whenArticleIsNotPresent() {
 
+        // Repository should throw NullPointerException instead of Service impl.
         doThrow(new NullPointerException())
                 .when(articleService).addArticle(null);
 
+        // Replace the asssertThatExceptionOfType with JUnit AssertThrows
         assertThatExceptionOfType(NullPointerException.class)
                 .isThrownBy(() -> {
                     articleService.addArticle(null);
