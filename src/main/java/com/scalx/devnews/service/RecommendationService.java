@@ -31,6 +31,9 @@ public class RecommendationService {
     private ArticleService articleService;
 
     @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
     private ArticleRepository articleRepository;
 
     public void recommendationIntoRecommendationList(JsonNode jsonNode, List<Recommendation> recommendationList) {
@@ -51,11 +54,13 @@ public class RecommendationService {
     // Belli bir formata soktuktan sonra hem elimde bulunan makale verilerini hem de kisinin begendiklerini artik recommendation icin yollayabilirim.
     public JsonNode getRecommendation(String title) {
 
-            RestTemplate restTemplate = new RestTemplate();
             String resourceUrl = "http://localhost:5000/api/recommend";
 
             ResponseEntity<JsonNode> response = restTemplate.getForEntity(resourceUrl, JsonNode.class);
 
+            if (response.getBody() == null) {
+                throw new ResourceNotFoundException();
+            }
 
             List<JsonNode> jsonNodeList = response.getBody().findValues("title");
 
@@ -74,11 +79,6 @@ public class RecommendationService {
                 }
             }
 
-            if (jsonNode.isNull()) {
-                // TODO : test it / not sure if it works for json data that only has 1 null val in size() 3 data.
-                throw new ResourceNotFoundException();
-            }
-
             return jsonNode;
     }
 
@@ -87,7 +87,7 @@ public class RecommendationService {
         // TODO : should we check if static list recommendations is present or not ? Dont forget to implement tests
 
         // TODO : test edilecek ofc. Ondan dolayi eski implementationu silmiyorum
-        recommendationList.sort(Comparator.comparingDouble(Recommendation::getSimilarityScore));
+        recommendationList.sort(Comparator.comparingDouble(Recommendation::getSimilarityScore).reversed());
 
         // Set kontrolu yapilsin. Ayni articleID'ye sahipler alinmasin.
         return recommendationList.stream()
@@ -100,9 +100,9 @@ public class RecommendationService {
         Iterator<Recommendation> iter = recommendationList.iterator();
 
         while(iter.hasNext()) {
-            int articleID = iter.next().getArticleId();
+            int articleId = iter.next().getArticleId();
 
-            Article article = articleRepository.findById(articleID);
+            Article article = articleRepository.findById(articleId);
 
             if (article == null) {
                 throw new ResourceNotFoundException();

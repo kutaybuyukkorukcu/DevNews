@@ -8,12 +8,18 @@ import com.scalx.devnews.entity.Recommendation;
 import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.repository.ArticleRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,24 +30,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+@ExtendWith(MockitoExtension.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class RecommendationServiceTest {
 
     @Mock
     LikeService likeService;
 
     @Mock
-    ArticleService articleService;
+    ArticleRepository articleRepository;
 
     @Mock
-    ArticleRepository articleRepository;
+    RestTemplate restTemplate;
 
     @InjectMocks
     RecommendationService recommendationService;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Test
     public void test_getTopRecommendationsFromList_whenSeveralRecommendationsArePresent() {
@@ -51,14 +54,14 @@ public class RecommendationServiceTest {
                         new Recommendation(1, 0.35),
                         new Recommendation(2, 0.50)));
 
-        assertThat(expectedRecommendationList.get(0).getArticleId()).isEqualTo(1);
-        assertThat(expectedRecommendationList.get(0).getSimilarityScore()).isEqualTo(0.35);
-
-        assertThat(expectedRecommendationList.get(0).getArticleId()).isEqualTo(2);
-        assertThat(expectedRecommendationList.get(0).getSimilarityScore()).isEqualTo(0.50);
-
         assertThat(expectedRecommendationList.get(0).getArticleId()).isEqualTo(3);
         assertThat(expectedRecommendationList.get(0).getSimilarityScore()).isEqualTo(0.85);
+
+        assertThat(expectedRecommendationList.get(1).getArticleId()).isEqualTo(2);
+        assertThat(expectedRecommendationList.get(1).getSimilarityScore()).isEqualTo(0.50);
+
+        assertThat(expectedRecommendationList.get(2).getArticleId()).isEqualTo(1);
+        assertThat(expectedRecommendationList.get(2).getSimilarityScore()).isEqualTo(0.35);
     }
 
     // recommendationListToArticleList - recommendations dolu, recommendArticles bos liste ata
@@ -75,16 +78,12 @@ public class RecommendationServiceTest {
 
         when(articleRepository.findById(articleId)).thenReturn(null);
 
-        doThrow(new ResourceNotFoundException())
-                .when(recommendationService).recommendationListToArticleList(recommendationList, recommendedArticles);
-
         assertThatExceptionOfType(ResourceNotFoundException.class)
                 .isThrownBy(() -> {
                     recommendationService.recommendationListToArticleList(recommendationList, recommendedArticles);
                 });
 
         verify(articleRepository).findById(articleId);
-        verifyNoMoreInteractions(recommendationService);
     }
 
     // recommendationListToArticleList - recommendation dolu, recommendedArticles bos liste ata
@@ -93,7 +92,7 @@ public class RecommendationServiceTest {
     public void test_recommendationListToArticleList_whenArticleIsPresent() {
         Recommendation recommendation = new Recommendation(1, 0.35);
 
-        List<Recommendation> recommendationList = Arrays.asList(recommendation);
+        List<Recommendation> recommendationList = Collections.singletonList(recommendation);
 
         int articleId = recommendationList.get(0).getArticleId();
 
@@ -102,7 +101,7 @@ public class RecommendationServiceTest {
 
         List<Article> recommendedArticles = new ArrayList<>();
 
-        when(articleRepository.findById(article.getId())).thenReturn(article);
+        when(articleRepository.findById(articleId)).thenReturn(article);
 
         recommendationService.recommendationListToArticleList(recommendationList, recommendedArticles);
 
@@ -110,7 +109,6 @@ public class RecommendationServiceTest {
         assertThat(recommendedArticles.get(0)).isEqualTo(article);
 
         verify(articleRepository).findById(articleId);
-        verifyNoMoreInteractions(recommendationService);
     }
 
     // getRecommendations() - likeService bos donsun
@@ -119,33 +117,31 @@ public class RecommendationServiceTest {
 
         when(likeService.getLikesByActive()).thenReturn(Collections.emptyList());
 
-        doThrow(new ResourceNotFoundException())
-                .when(recommendationService).getRecommendations();
-
         assertThatExceptionOfType(ResourceNotFoundException.class)
                 .isThrownBy(() -> {
                     recommendationService.getRecommendations();
                 });
 
         verify(likeService).getLikesByActive();
-        verifyNoMoreInteractions(recommendationService);
     }
 
     // getRecommendations() - likeService dolu donsun, recommendationService.getRecommendation'i mocklamaya calis
     // jsonObject full bos donsun
     @Test
     public void test_getRecommendations_whenGetRecommendationIsNotPresent() {
+
         List<Like> likeList = Arrays.asList(
                 new Like("What's new with Java 11", "Development"),
                 new Like("Comprehensive guide to unit testing", "Development")
         );
 
+        String resourceUrl = "http://localhost:5000/api/recommend";
+
         when(likeService.getLikesByActive()).thenReturn(likeList);
 
-        when(recommendationService.getRecommendation(likeList.get(0).getTitle())).thenReturn(null);
+        when(restTemplate.getForEntity(resourceUrl, JsonNode.class)).thenReturn(ResponseEntity.ok(null));
 
-        doThrow(new ResourceNotFoundException())
-                .when(recommendationService).getRecommendations();
+//        when(recommendationService.getRecommendation(likeList.get(0).getTitle())).thenReturn(null);
 
         assertThatExceptionOfType(ResourceNotFoundException.class)
                 .isThrownBy(() -> {
@@ -153,40 +149,10 @@ public class RecommendationServiceTest {
                 });
 
         verify(likeService).getLikesByActive();
-        verify(recommendationService).getRecommendation(likeList.get(0).getTitle());
-        verifyNoMoreInteractions(recommendationService);
     }
 
-    @Test
-    public void test_getRecommendations_whenEverythingIsPresent() {
-        List<Like> likeList = Arrays.asList(
-                new Like("What's new with Java 11", "Development"),
-                new Like("Comprehensive guide to unit testing", "Development")
-        );
-
-        when(likeService.getLikesByActive()).thenReturn(likeList);
-
-        List<Recommendation> recommendationList = Arrays.asList(
-                new Recommendation(395, 0.42356506617672646),
-                new Recommendation(250, 0.2579225416660869),
-                new Recommendation(468, 0.2302017341361332),
-                new Recommendation(248, 0.2230720491097254),
-                new Recommendation(490, 0.19212489538396202));
-
-        List<Recommendation> initializedStaticList = new ArrayList<>();
-
-        JsonNode jsonNode = objectMapper.convertValue(recommendationList, JsonNode.class);
-
-        when(recommendationService.getRecommendation(likeList.get(0).getTitle())).thenReturn(jsonNode);
-
-        JsonNode expectedJsonNode = recommendationService.getRecommendation(likeList.get(0).getTitle());
-
-        assertThat(expectedJsonNode).isEqualTo(JsonNode.class);
-
-        verify(likeService).getLikesByActive();
-        verify(recommendationService.getRecommendation(likeList.get(0).getTitle()));
-
-        verify(recommendationService).recommendationIntoRecommendationList(jsonNode, initializedStaticList);
-        verifyNoMoreInteractions(recommendationService);
-    }
+//    @Test
+//    public void test_getRecommendations_whenEveryMethodIsPresent() {
+//
+//    }
 }

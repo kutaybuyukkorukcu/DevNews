@@ -2,12 +2,18 @@ package com.scalx.devnews.service;
 
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.repository.ArticleRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -18,8 +24,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+@ExtendWith(MockitoExtension.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ArticleServiceTest {
 
     @Mock
@@ -32,7 +38,7 @@ public class ArticleServiceTest {
     public void test_addArticle_whenArticleIsNotPresent() {
 
         doThrow(new NullPointerException())
-                .when(articleService).addArticle(null);
+                .when(articleRepository).save(null);
 
         assertThatExceptionOfType(NullPointerException.class)
                 .isThrownBy(() -> {
@@ -40,7 +46,7 @@ public class ArticleServiceTest {
                 });
 
         verify(articleRepository).save(null);
-        verifyNoMoreInteractions(articleService);
+        verifyNoMoreInteractions(articleRepository);
     }
 
     @Test
@@ -53,7 +59,7 @@ public class ArticleServiceTest {
         articleService.addArticle(article);
 
         verify(articleRepository).save(any(Article.class));
-        verifyNoMoreInteractions(articleService);
+        verifyNoMoreInteractions(articleRepository);
     }
 
     @Test
@@ -67,7 +73,7 @@ public class ArticleServiceTest {
         assertThat(articleList).isEqualTo(expectedArticleList);
 
         verify(articleRepository).findAll();
-        verifyNoMoreInteractions(articleService);
+        verifyNoMoreInteractions(articleRepository);
     }
 
     @Test
@@ -89,6 +95,6 @@ public class ArticleServiceTest {
         assertThat(articleList).isEqualTo(expectedArticleList);
 
         verify(articleRepository).findAll();
-        verifyNoMoreInteractions(articleService);
+        verifyNoMoreInteractions(articleRepository);
     }
 }

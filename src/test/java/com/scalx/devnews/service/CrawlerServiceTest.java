@@ -5,10 +5,13 @@ import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Like;
 import com.scalx.devnews.repository.ArticleRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
@@ -16,8 +19,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+@ExtendWith(MockitoExtension.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class CrawlerServiceTest {
 
     @Mock
@@ -33,12 +36,12 @@ public class CrawlerServiceTest {
 
         when(articleRepository.findByArticleLink(articleLink)).thenReturn(null);
 
-        Like like = crawlerService.articleLinkToLike(articleLink).get();
+        Optional<Like> like = crawlerService.articleLinkToLike(articleLink);
 
         assertThat(like).isEqualTo(Optional.empty());
 
         verify(articleRepository).findByArticleLink(articleLink);
-        verifyNoMoreInteractions(crawlerService);
+        verifyNoMoreInteractions(articleRepository);
     }
 
     @Test
@@ -58,6 +61,6 @@ public class CrawlerServiceTest {
         assertThat(like.getMainTopic()).isEqualTo("Development");
 
         verify(articleRepository).findByArticleLink(articleLink);
-        verifyNoMoreInteractions(crawlerService);
+        verifyNoMoreInteractions(articleRepository);
     }
 }
