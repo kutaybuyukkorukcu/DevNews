@@ -4,10 +4,13 @@ import com.scalx.devnews.entity.User;
 import com.scalx.devnews.exception.UserExistsException;
 import com.scalx.devnews.repository.UserRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -17,8 +20,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+@ExtendWith(MockitoExtension.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceTest {
 
     @Mock
@@ -27,7 +30,6 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
-
     @Test
     public void test_addUser_whenUserIsRegistered() {
 
@@ -35,16 +37,10 @@ public class UserServiceTest {
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
 
-        doThrow(new UserExistsException())
-                .when(userService).addUser(user);
-
         assertThatExceptionOfType(UserExistsException.class)
                 .isThrownBy(() -> {
                     userService.addUser(user);
                 });
-
-        verify(userRepository).save(user);
-        verifyNoMoreInteractions();
     }
 
     @Test
@@ -55,8 +51,7 @@ public class UserServiceTest {
 
         userService.addUser(user);
 
-        verify(userRepository).save(any(User.class));
-        verifyNoMoreInteractions(userService);
+        verify(userRepository).saveAndFlush(user);
     }
 
     @Test
@@ -65,12 +60,11 @@ public class UserServiceTest {
         when(userRepository.findAll()).thenReturn(null);
 
         List<User> userList = userService.getUsers();
-        List<User> expectedUserList = new ArrayList<>();
 
-        assertThat(userList).isEqualTo(expectedUserList);
+        assertThat(userList).isEqualTo(new ArrayList<>());
 
         verify(userRepository).findAll();
-        verifyNoMoreInteractions(userService);
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -88,7 +82,7 @@ public class UserServiceTest {
         assertThat(userList).isEqualTo(expectedUserList);
 
         verify(userRepository).findAll();
-        verifyNoMoreInteractions(userService);
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -98,12 +92,12 @@ public class UserServiceTest {
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(null);
 
-        User expectedUser = userService.getUserByUsername(user.getUsername()).get();
+        Optional<User> expectedUser = userService.getUserByUsername(user.getUsername());
 
         assertThat(expectedUser).isEqualTo(Optional.empty());
 
         verify(userRepository).findByUsername(user.getUsername());
-        verifyNoMoreInteractions(userService);
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -118,7 +112,7 @@ public class UserServiceTest {
         assertThat(user).isEqualTo(expectedUser);
 
         verify(userRepository).findByUsername(user.getUsername());
-        verifyNoMoreInteractions(userService);
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -128,12 +122,12 @@ public class UserServiceTest {
 
         when(userRepository.findById(user.getId())).thenReturn(null);
 
-        User expectedUser = userService.getUserById(user.getId()).get();
+        Optional<User> expectedUser = userService.getUserById(user.getId());
 
         assertThat(expectedUser).isEqualTo(Optional.empty());
 
         verify(userRepository).findById(user.getId());
-        verifyNoMoreInteractions();
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -148,7 +142,7 @@ public class UserServiceTest {
         assertThat(user).isEqualTo(expectedUser);
 
         verify(userRepository).findById(user.getId());
-        verifyNoMoreInteractions();
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -158,12 +152,12 @@ public class UserServiceTest {
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(null);
 
-        User expectedUser = userService.getUserById(user.getId()).get();
+        Optional<User> expectedUser = userService.getUserByEmail(user.getEmail());
 
         assertThat(expectedUser).isEqualTo(Optional.empty());
 
         verify(userRepository).findByEmail(user.getEmail());
-        verifyNoMoreInteractions();
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -173,11 +167,11 @@ public class UserServiceTest {
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
 
-        User expectedUser = userService.getUserById(user.getId()).get();
+        Optional<User> expectedUser = userService.getUserByEmail(user.getEmail());
 
-        assertThat(expectedUser).isEqualTo(Optional.empty());
+        assertThat(user).isEqualTo(expectedUser.get());
 
         verify(userRepository).findByEmail(user.getEmail());
-        verifyNoMoreInteractions();
+        verifyNoMoreInteractions(userRepository);
     }
 }
