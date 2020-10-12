@@ -2,6 +2,7 @@ package com.scalx.devnews.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Calendar;

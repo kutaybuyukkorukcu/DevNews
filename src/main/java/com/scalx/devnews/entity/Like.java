@@ -1,9 +1,6 @@
 package com.scalx.devnews.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.Entity;
@@ -18,6 +15,7 @@ import java.util.Date;
 @Table(name = "likes")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Like extends BaseEntity {
 
     @Column(name = "title")

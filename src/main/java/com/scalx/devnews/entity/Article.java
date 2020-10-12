@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Table(name = "articles")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Article extends BaseEntity implements Serializable {
 
     @Column(name = "title")
@@ -28,3 +29,5 @@ public class Article extends BaseEntity implements Serializable {
     @Column(name = "article_link")
     private String articleLink;
 }
+
+
