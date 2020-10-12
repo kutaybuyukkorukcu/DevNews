@@ -55,6 +55,7 @@ public class CrawlerController {
         for (String articleLink : articleLinkList) {
             Article article = null;
 
+            // Check out commit history for the reason of this try/catch
             try {
                 article = crawlerService.crawlArticleLinkIntoArticle(articleLink).get();
             } catch (IOException e) {

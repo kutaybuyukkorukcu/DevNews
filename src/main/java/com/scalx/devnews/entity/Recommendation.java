@@ -1,9 +1,6 @@
 package com.scalx.devnews.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 @Table(name = "recommendations")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Recommendation extends BaseEntity {
 
     @Column(name = "article_id")

@@ -1,9 +1,6 @@
 package com.scalx.devnews.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import java.util.Collection;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class User extends BaseEntity {
 
     @Column(name = "username")
