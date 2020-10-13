@@ -55,8 +55,9 @@ public class MockTest {
     @MockBean
     ArticleService articleService;
 
+    // Keep getting NullPointerException. Couldn't figure it out yet.
     @Test
-    public void yo() throws Exception {
+    public void test_getArticles_whenGetArticlesIsNotPresent() throws Exception {
 
         String responseInString = "";
 
@@ -74,12 +75,6 @@ public class MockTest {
             String error = e.getMessage();
             e.printStackTrace();
         }
-//        var response = mockMvc.perform(
-//                get("/api/articles")
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andReturn().getResponse();
-
-//        String responseInString = response.getContentAsString();
 
         JsonNode jsonNode = objectMapper.readValue(responseInString, JsonNode.class);
 

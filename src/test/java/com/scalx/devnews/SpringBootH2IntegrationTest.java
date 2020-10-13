@@ -43,22 +43,17 @@ public class SpringBootH2IntegrationTest {
 
     private ModelMapper modelMapper = new ModelMapper();
 
+    // The exact same exception(NullPointer) like MockMvc
     @Test
-    public void yo() throws Exception {
+    public void test_getArticles_whenGetArticlesIsNotPresent() throws Exception {
 
-        ResponseEntity<StandardResponse> response =
+        ResponseEntity<StandardResponse> responseEntity =
                 this.restTemplate.getForEntity(baseUrl + port + URI, StandardResponse.class);
 
-        StandardResponse resp = response.getBody();
+        StandardResponse response = responseEntity.getBody();
 
-
-
-//        String responseInString = response.getBody();
-//
-//        JsonNode jsonNode = objectMapper.readValue(responseInString, JsonNode.class);
-//
-//        assertThat(jsonNode.get("statusCode").asInt()).isEqualTo(404);
-//        assertThat(jsonNode.get("message").asText()).isEqualTo("Not found!");
-//        assertThat(jsonNode.get("date").asText()).isEqualTo(Date.valueOf(LocalDate.now()).toString());
+        assertThat(response.getStatusCode()).isEqualTo(404);
+        assertThat(response.getMessage()).isEqualTo("Not found!");
+        assertThat(response.getDate()).isEqualTo(Date.valueOf(LocalDate.now()).toString());
     }
 }

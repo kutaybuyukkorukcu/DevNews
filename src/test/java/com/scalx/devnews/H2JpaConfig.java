@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories
-@TestPropertySource(locations = "classpath:../../../../resources/application.properties")
+@TestPropertySource(locations = "C:\\Users\\Kutay\\IdeaProjects\\devnews\\src\\test\\resources\\application.properties")
 @EnableTransactionManagement
 public class H2JpaConfig {
 }
