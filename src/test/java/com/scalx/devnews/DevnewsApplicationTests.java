@@ -13,9 +13,4 @@ class DevnewsApplicationTests {
 	public static void main(String[] args) {
 		applicationContext = SpringApplication.run(DevnewsApplicationTests.class, args);
 	}
-
-	@Test
-	void contextLoads() {
-	}
-
 }
