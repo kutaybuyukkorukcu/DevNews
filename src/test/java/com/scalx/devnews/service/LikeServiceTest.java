@@ -1,7 +1,6 @@
 package com.scalx.devnews.service;
 
 import com.scalx.devnews.entity.Like;
-import com.scalx.devnews.entity.Url;
 import com.scalx.devnews.exception.ResourceNotFoundException;
 import com.scalx.devnews.repository.LikeRepository;
 import org.junit.Test;
@@ -10,11 +9,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +28,7 @@ public class LikeServiceTest {
     UrlService urlService;
 
     @Mock
-    CrawlerService crawlerService;
+    ContentService contentService;
 
     @InjectMocks
     LikeService likeService;
@@ -162,7 +158,7 @@ public class LikeServiceTest {
 
 //        String articleLink = "www.infoq.com/Whats-new-with-java-11";
 
-        when(crawlerService.articleLinkToLike(articleLink)).thenReturn(Optional.empty());
+        when(contentService.articleLinkToLike(articleLink)).thenReturn(Optional.empty());
 
 //        doThrow(new ResourceNotFoundException())
 //                .when(crawlerService).articleLinkToLike(articleLinkList.get(0));
@@ -173,9 +169,9 @@ public class LikeServiceTest {
                 });
         
         verify(urlService).getArticleLinksAsList();
-        verify(crawlerService).articleLinkToLike(articleLink);
+        verify(contentService).articleLinkToLike(articleLink);
         verifyNoMoreInteractions(urlService);
-        verifyNoMoreInteractions(crawlerService);
+        verifyNoMoreInteractions(contentService);
     }
 
 //    @Test

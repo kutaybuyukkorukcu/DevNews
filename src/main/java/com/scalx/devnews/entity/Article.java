@@ -28,6 +28,10 @@ public class Article extends BaseEntity implements Serializable {
     private String relatedTopics;
     @Column(name = "article_link")
     private String articleLink;
+
+//    @OneToMany
+//    @JoinTable
+//    private List<Comment> comments;
 }
 
 

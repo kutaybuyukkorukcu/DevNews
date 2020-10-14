@@ -1,13 +1,10 @@
 package com.scalx.devnews.controller;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scalx.devnews.dto.url.UrlRequest;
-import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Url;
 import com.scalx.devnews.helper.FieldSetter;
-import com.scalx.devnews.service.CrawlerService;
 import com.scalx.devnews.service.UrlService;
 import com.scalx.devnews.utils.ErrorResponse;
 import com.scalx.devnews.utils.StandardResponse;

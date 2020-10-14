@@ -6,7 +6,6 @@ import com.scalx.devnews.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Access;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -18,7 +17,7 @@ public class LikeService {
     private UrlService urlService;
 
     @Autowired
-    private CrawlerService crawlerService;
+    private ContentService contentService;
 
     @Autowired
     private LikeRepository likeRepository;
@@ -51,7 +50,7 @@ public class LikeService {
         }
 
         for (String articleLink : articleLinkList) {
-            Optional<Like> like = crawlerService.articleLinkToLike(articleLink);
+            Optional<Like> like = contentService.articleLinkToLike(articleLink);
 
             if (like.isEmpty()) {
 

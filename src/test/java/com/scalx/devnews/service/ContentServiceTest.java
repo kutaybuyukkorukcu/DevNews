@@ -1,6 +1,5 @@
 package com.scalx.devnews.service;
 
-import com.scalx.devnews.dto.article.ArticleRequest;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Like;
 import com.scalx.devnews.repository.ArticleRepository;
@@ -10,9 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
@@ -21,13 +18,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class CrawlerServiceTest {
+public class ContentServiceTest {
 
     @Mock
     ArticleRepository articleRepository;
 
     @InjectMocks
-    CrawlerService crawlerService;
+    ContentService contentService;
 
     @Test
     public void test_articleLinkToLike_whenArticleLinkIsNotPresent() {
@@ -36,7 +33,7 @@ public class CrawlerServiceTest {
 
         when(articleRepository.findByArticleLink(articleLink)).thenReturn(null);
 
-        Optional<Like> like = crawlerService.articleLinkToLike(articleLink);
+        Optional<Like> like = contentService.articleLinkToLike(articleLink);
 
         assertThat(like).isEqualTo(Optional.empty());
 
@@ -55,7 +52,7 @@ public class CrawlerServiceTest {
 
         when(articleRepository.findByArticleLink(articleLink)).thenReturn(article);
 
-        Like like = crawlerService.articleLinkToLike(articleLink).get();
+        Like like = contentService.articleLinkToLike(articleLink).get();
 
         assertThat(like.getTitle()).isEqualTo("Whats new with Java 11");
         assertThat(like.getMainTopic()).isEqualTo("Development");

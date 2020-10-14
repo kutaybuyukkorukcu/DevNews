@@ -7,7 +7,6 @@ import com.scalx.devnews.service.LikeService;
 import com.scalx.devnews.service.RecommendationService;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.fields.FieldSet;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
@@ -21,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = CrawlerController.class)
+@WebMvcTest(controllers = ContentController.class)
 @AutoConfigureMockMvc
 public class RecommendationControllerTest {
 

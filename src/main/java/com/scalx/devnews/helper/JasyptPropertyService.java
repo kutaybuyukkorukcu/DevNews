@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JasyptPropertyService {
 
-    @Value("${encrypted.property}")
+    @Value("${spring.datasource.password}")
     private String property;
 
     public String getProperty() {
