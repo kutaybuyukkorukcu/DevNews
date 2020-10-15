@@ -4,7 +4,10 @@ import com.scalx.devnews.entity.Recommendation;
 import com.scalx.devnews.entity.User;
 import com.scalx.devnews.utils.ErrorResponse;
 import com.sun.mail.iap.Response;
+import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,8 +24,11 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvisor extends ResponseEntityExceptionHandler {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(RecommendationHttpException.class)
     public ResponseEntity<Object> handleRecommendationHttpException(
@@ -83,6 +89,8 @@ public class GlobalControllerAdvisor extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRunTimeException(
             RuntimeException ex, WebRequest request) {
+
+        logger.info(ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setDate(Date.valueOf(LocalDate.now()));

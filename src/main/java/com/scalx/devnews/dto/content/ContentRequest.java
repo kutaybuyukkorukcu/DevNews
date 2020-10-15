@@ -7,18 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class ContentRequest extends BaseRequest {
-
-    private String content;
+public class ContentRequest {
 
     private String link;
 
     private String topic;
 
-    public ContentRequest(String accountName, String content, String link, String topic) {
-        super(accountName);
-        this.content = content;
+    public ContentRequest(String link, String topic) {
         this.link = link;
         this.topic = topic;
     }
