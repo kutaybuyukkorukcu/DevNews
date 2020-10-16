@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleRequest extends BaseRequest {
+public class  ArticleRequest extends BaseRequest {
 
     private String title;
 

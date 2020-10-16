@@ -13,9 +13,9 @@ import javax.persistence.*;
 @ToString
 public class Comment extends BaseEntity {
 
-    @OneToOne(targetEntity = Article.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "article_id", referencedColumnName = "id")
-    private Article article;
+    @ManyToOne
+    @JoinColumn(name = "story_id", referencedColumnName = "id", nullable = false)
+    private Story story;
 
     @Column(name = "author")
     private String author;
@@ -26,5 +26,9 @@ public class Comment extends BaseEntity {
     // I don't know if i should use Article or String for this one.
     // It just contains parent comments id. Assuming it can't be defined as FK.
     @Column(name = "parent_comment_id")
-    private String parentCommentId;
+    private int parentCommentId;
+
+    @Column(name = "created")
+    private int created;
+
 }

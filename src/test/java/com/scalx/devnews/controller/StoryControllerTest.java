@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = ContentController.class)
 @AutoConfigureMockMvc
-public class ContentControllerTest {
+public class StoryControllerTest {
 
     @Mock
     private ContentService contentService;

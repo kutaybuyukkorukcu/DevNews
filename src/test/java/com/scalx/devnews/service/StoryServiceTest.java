@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ContentServiceTest {
+public class StoryServiceTest {
 
     @Mock
     ArticleRepository articleRepository;
