@@ -3,7 +3,10 @@ package com.scalx.devnews.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.scalx.devnews.dto.comment.CommentRequest;
+import com.scalx.devnews.dto.comment.CommentResponse;
 import com.scalx.devnews.dto.story.StoryRequest;
+import com.scalx.devnews.dto.story.StoryResponse;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Comment;
 import com.scalx.devnews.entity.Like;
@@ -36,8 +39,7 @@ public class ContentService {
     @Autowired
     ObjectMapper objectMapper;
 
-    // Gets
-    public List<Article> getArticles(StoryRequest request, String content) {
+    public List<StoryResponse> getArticles(StoryRequest request, String content) {
 
         String resourceUrl = "http://localhost:8082/api/articles?content=" + content;
 
@@ -48,15 +50,15 @@ public class ContentService {
             throw new ResourceNotFoundException();
         }
 
-        List<Article> articleList = objectMapper.convertValue(
+        List<StoryResponse> articleList = objectMapper.convertValue(
                 response.getBody().get("data"),
-                TypeFactory.defaultInstance().constructCollectionType(List.class, Article.class)
+                TypeFactory.defaultInstance().constructCollectionType(List.class, StoryResponse.class)
         );
 
         return articleList;
     }
 
-    public List<Comment> getComments(StoryRequest request, String content) {
+    public List<CommentResponse> getComments(CommentRequest request, String content) {
 
         String resourceUrl = "http://localhost:8082/api/comments?content=" + content;
 
@@ -67,27 +69,13 @@ public class ContentService {
             throw new ResourceNotFoundException();
         }
 
-        List<Comment> commentList = objectMapper.convertValue(
+        List<CommentResponse> commentList = objectMapper.convertValue(
                 response.getBody().get("data"),
-                TypeFactory.defaultInstance().constructCollectionType(List.class, Comment.class)
+                TypeFactory.defaultInstance().constructCollectionType(List.class, CommentResponse.class)
         );
 
         return commentList;
     }
 
-    public Optional<Like> articleLinkToLike(String articleLink) {
-
-        Article article = articleRepository.findByArticleLink(articleLink);
-
-        if (article == null) {
-            return Optional.empty();
-        }
-
-        Like like = new Like();
-
-        like.setTitle(article.getTitle());
-        like.setMainTopic(article.getMainTopic());
-
-        return Optional.ofNullable(like);
-    }
+//    public List<>
 }

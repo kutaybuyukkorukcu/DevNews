@@ -28,7 +28,7 @@ public class LikeServiceTest {
     UrlService urlService;
 
     @Mock
-    ContentService contentService;
+    ArticleService articleService;
 
     @InjectMocks
     LikeService likeService;
@@ -158,7 +158,7 @@ public class LikeServiceTest {
 
 //        String articleLink = "www.infoq.com/Whats-new-with-java-11";
 
-        when(contentService.articleLinkToLike(articleLink)).thenReturn(Optional.empty());
+        when(articleService.articleLinkToLike(articleLink)).thenReturn(Optional.empty());
 
 //        doThrow(new ResourceNotFoundException())
 //                .when(crawlerService).articleLinkToLike(articleLinkList.get(0));
@@ -169,9 +169,9 @@ public class LikeServiceTest {
                 });
         
         verify(urlService).getArticleLinksAsList();
-        verify(contentService).articleLinkToLike(articleLink);
+        verify(articleService).articleLinkToLike(articleLink);
         verifyNoMoreInteractions(urlService);
-        verifyNoMoreInteractions(contentService);
+        verifyNoMoreInteractions(articleService);
     }
 
 //    @Test
@@ -203,9 +203,9 @@ public class LikeServiceTest {
 
         when(likeRepository.findByTitle(title)).thenReturn(like);
 
-        Like expectedLike = likeService.getLikeByTitle(title).get();
+        Optional<Like> expectedLike = likeService.getLikeByTitle(title);
 
-        assertThat(like).isEqualTo(expectedLike);
+        assertThat(like).isEqualTo(expectedLike.get());
 
         verify(likeRepository).findByTitle(title);
         verifyNoMoreInteractions(likeRepository);

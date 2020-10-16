@@ -18,13 +18,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class StoryServiceTest {
+public class ContentServiceTest {
 
     @Mock
     ArticleRepository articleRepository;
 
     @InjectMocks
-    ContentService contentService;
+    ArticleService articleService;
 
     @Test
     public void test_articleLinkToLike_whenArticleLinkIsNotPresent() {
@@ -33,7 +33,7 @@ public class StoryServiceTest {
 
         when(articleRepository.findByArticleLink(articleLink)).thenReturn(null);
 
-        Optional<Like> like = contentService.articleLinkToLike(articleLink);
+        Optional<Like> like = articleService.articleLinkToLike(articleLink);
 
         assertThat(like).isEqualTo(Optional.empty());
 
@@ -52,7 +52,7 @@ public class StoryServiceTest {
 
         when(articleRepository.findByArticleLink(articleLink)).thenReturn(article);
 
-        Like like = contentService.articleLinkToLike(articleLink).get();
+        Like like = articleService.articleLinkToLike(articleLink).get();
 
         assertThat(like.getTitle()).isEqualTo("Whats new with Java 11");
         assertThat(like.getMainTopic()).isEqualTo("Development");

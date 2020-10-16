@@ -13,7 +13,7 @@ import javax.persistence.*;
 @ToString
 public class Comment extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "story_id", referencedColumnName = "id", nullable = false)
     private Story story;
 
@@ -23,8 +23,6 @@ public class Comment extends BaseEntity {
     @Column(name = "text")
     private String text;
 
-    // I don't know if i should use Article or String for this one.
-    // It just contains parent comments id. Assuming it can't be defined as FK.
     @Column(name = "parent_comment_id")
     private int parentCommentId;
 

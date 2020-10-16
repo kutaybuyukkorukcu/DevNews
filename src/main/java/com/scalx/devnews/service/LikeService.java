@@ -17,7 +17,7 @@ public class LikeService {
     private UrlService urlService;
 
     @Autowired
-    private ContentService contentService;
+    private ArticleService articleService;
 
     @Autowired
     private LikeRepository likeRepository;
@@ -50,7 +50,7 @@ public class LikeService {
         }
 
         for (String articleLink : articleLinkList) {
-            Optional<Like> like = contentService.articleLinkToLike(articleLink);
+            Optional<Like> like = articleService.articleLinkToLike(articleLink);
 
             if (like.isEmpty()) {
 

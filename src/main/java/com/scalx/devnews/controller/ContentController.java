@@ -2,7 +2,10 @@ package com.scalx.devnews.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scalx.devnews.dto.comment.CommentRequest;
+import com.scalx.devnews.dto.comment.CommentResponse;
 import com.scalx.devnews.dto.story.StoryRequest;
+import com.scalx.devnews.dto.story.StoryResponse;
 import com.scalx.devnews.entity.Article;
 import com.scalx.devnews.entity.Comment;
 import com.scalx.devnews.service.ArticleService;
@@ -41,7 +44,7 @@ public class ContentController {
     public ResponseEntity<?> getContentByType(@RequestParam String content,
                                               @RequestBody StoryRequest storyRequest) {
 
-        List<Article> articleList = contentService.getArticles(storyRequest, content);
+        List<StoryResponse> articleList = contentService.getArticles(storyRequest, content);
 
         JsonNode jsonNode = objectMapper.convertValue(articleList, JsonNode.class);
 
@@ -56,9 +59,9 @@ public class ContentController {
     // /articles/{id}/comments/{id}
     @RequestMapping(value = "/content/comments", method = RequestMethod.POST)
     public ResponseEntity<?> getContentCommentsByType(@RequestParam String content,
-                                                      @RequestBody StoryRequest storyRequest) {
+                                                      @RequestBody CommentRequest commentRequest) {
 
-        List<Comment> commentList = contentService.getComments(storyRequest, content);
+        List<CommentResponse> commentList = contentService.getComments(commentRequest, content);
 
         JsonNode jsonNode = objectMapper.convertValue(commentList, JsonNode.class);
 

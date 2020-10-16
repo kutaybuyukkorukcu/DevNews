@@ -3,10 +3,7 @@ package com.scalx.devnews.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,30 +16,30 @@ import java.util.List;
 @ToString
 public class Story extends BaseEntity implements Serializable {
 
-    @Column("title")
+    @Column(name = "title")
     private String title;
 
-    @Column("main_topic")
+    @Column(name = "main_topic")
     private String mainTopic;
 
-    @Column("url")
+    @Column(name = "url")
     private String url;
 
-    @Column("author")
+    @Column(name = "author")
     private String author;
 
-    @Column("text")
+    @Column(name = "text")
     private String text;
 
-    @Column("upvote_count")
+    @Column(name = "upvote_count")
     private int upvoteCount;
 
-    @Column("comment_count")
+    @Column(name = "comment_count")
     private int commentCount;
 
-    @Column("created")
+    @Column(name = "created")
     private int created;
 
-    @OneToMany(mappedBy = "stories")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "story")
     private List<Comment> comments;
 }
