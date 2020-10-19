@@ -16,6 +16,9 @@ public class CommentResponse {
     @JsonProperty("story_id")
     private int storyId;
 
+    @JsonProperty("text")
+    private String text;
+
     @JsonProperty("author")
     private String author;
 

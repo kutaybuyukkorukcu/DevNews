@@ -60,4 +60,19 @@ public class ContentServiceTest {
         verify(articleRepository).findByArticleLink(articleLink);
         verifyNoMoreInteractions(articleRepository);
     }
+
+    @Test
+    public void test_getStories_whenEndpointIsPresent() {
+
+        // Mocking Rest Template
+    }
+
+    @Test
+    public void test_getComments_whenEndpointIsPresent() {
+
+        // Mocking Rest Template
+    }
+
+    // Test cases for several exceptions thrown by @ControllerAdvice
+    // and the exception responses from the ContentCraver service
 }

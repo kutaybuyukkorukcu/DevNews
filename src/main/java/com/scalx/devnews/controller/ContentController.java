@@ -39,12 +39,12 @@ public class ContentController {
     @Autowired
     ObjectMapper objectMapper;
 
-    // /articles/{id}/
-    @RequestMapping(value = "/content/articles", method = RequestMethod.POST)
-    public ResponseEntity<?> getContentByType(@RequestParam String content,
+    @RequestMapping(value = "/contents/{id}/stories", method = RequestMethod.POST)
+    public ResponseEntity<?> getContentByType(@PathVariable String id,
+                                              @RequestParam String content,
                                               @RequestBody StoryRequest storyRequest) {
 
-        List<StoryResponse> articleList = contentService.getArticles(storyRequest, content);
+        List<StoryResponse> articleList = contentService.getStories(storyRequest, content);
 
         JsonNode jsonNode = objectMapper.convertValue(articleList, JsonNode.class);
 
@@ -56,9 +56,9 @@ public class ContentController {
         ));
     }
 
-    // /articles/{id}/comments/{id}
-    @RequestMapping(value = "/content/comments", method = RequestMethod.POST)
-    public ResponseEntity<?> getContentCommentsByType(@RequestParam String content,
+    @RequestMapping(value = "/contents/{id}/comments", method = RequestMethod.POST)
+    public ResponseEntity<?> getContentCommentsByType(@PathVariable String id,
+                                                      @RequestParam String content,
                                                       @RequestBody CommentRequest commentRequest) {
 
         List<CommentResponse> commentList = contentService.getComments(commentRequest, content);

@@ -39,7 +39,7 @@ public class ContentService {
     @Autowired
     ObjectMapper objectMapper;
 
-    public List<StoryResponse> getArticles(StoryRequest request, String content) {
+    public List<StoryResponse> getStories(StoryRequest request, String content) {
 
         String resourceUrl = "http://localhost:8082/api/articles?content=" + content;
 

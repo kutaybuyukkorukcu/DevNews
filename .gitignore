@@ -1,8 +1,9 @@
 HELP.md
-target/
+src/main/resources/secret-credentials
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+resources
 
 ### STS ###
 .apt_generated
